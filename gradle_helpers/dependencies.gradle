@@ -1,0 +1,59 @@
+apply from: 'gradle_helpers/git-utils.gradle'
+
+allprojects {
+  repositories {
+    jcenter()
+  }
+}
+
+def verCode = getVersionCode()
+def verName = getVersionName()
+
+ext {
+
+  androidBuildToolsVersion = "23.0.1"
+  androidMinSdkVersion = 16
+  androidTargetSdkVersion = 22
+  androidCompileSdkVersion = 23
+  androidVersionCode = verCode
+  androidVersionName = verName
+  androidAppId = "makarov.vk.vkgroupchats"
+
+  daggerVersion = '2.+'
+  butterKnifeVersion = '7.0.1'
+  supportVersion = '23.3.0'
+  javaxAnnotationVersion = '1.0'
+
+  //Testing
+  robolectricVersion = '3.0'
+  jUnitVersion = '4.12'
+  assertJVersion = '1.7.1'
+  mockitoVersion = '1.9.5'
+  testingSupportLibVersion = '0.1'
+
+  presentationDependencies = [
+          daggerCompiler:                 "com.google.dagger:dagger-compiler:${daggerVersion}",
+          dagger:                         "com.google.dagger:dagger:${daggerVersion}",
+          butterKnife:                    "com.jakewharton:butterknife:${butterKnifeVersion}",
+          recyclerView:                   "com.android.support:recyclerview-v7:${supportVersion}",
+          supportV4:                      "com.android.support:support-v4:${supportVersion}",
+          supportDesign:                  "com.android.support:design:${supportVersion}",
+          supportV13:                     "com.android.support:support-v13:${supportVersion}",
+          javaxAnnotationVersion:         "javax.annotation:jsr250-api:${javaxAnnotationVersion}",
+  ]
+
+  mvpDependencies = [
+          javaxAnnotationVersion:         "javax.annotation:jsr250-api:${javaxAnnotationVersion}",
+          androidAnnotations:             "com.android.support:appcompat-v7:${supportVersion}",
+          supportV4:                      "com.android.support:support-v4:${supportVersion}",
+  ]
+
+  dataDependencies = [
+          daggerCompiler:                 "com.google.dagger:dagger-compiler:${daggerVersion}",
+          dagger:                         "com.google.dagger:dagger:${daggerVersion}",
+          javaxAnnotationVersion:         "javax.annotation:jsr250-api:${javaxAnnotationVersion}",
+          androidAnnotations:             "com.android.support:appcompat-v7:${supportVersion}",
+          supportV4:                      "com.android.support:support-v4:${supportVersion}0",
+  ]
+
+}
