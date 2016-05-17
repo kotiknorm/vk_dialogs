@@ -11,7 +11,7 @@ public class VkApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        VKSdk.initialize(this);
+        VKSdk.customInitialize(this, getResources().getInteger(R.integer.com_vk_sdk_AppId), "5.52");
         IocInjector.buildComponent(this);
     }
 }

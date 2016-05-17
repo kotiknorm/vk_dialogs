@@ -9,4 +9,9 @@ public class ChatsQuery extends RealmBaseQuery<Chat> {
         super(realmStorage, Chat.class);
     }
 
+    public Chat findById(int chatId) {
+        mRealmQuery.equalTo("chatId", chatId);
+        return mRealmQuery.findFirst();
+    }
+
 }

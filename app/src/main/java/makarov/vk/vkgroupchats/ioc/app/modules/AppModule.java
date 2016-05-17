@@ -12,6 +12,7 @@ import makarov.vk.vkgroupchats.data.Storage;
 import makarov.vk.vkgroupchats.data.StorageImpl;
 import makarov.vk.vkgroupchats.vk.ChatJsonParser;
 import makarov.vk.vkgroupchats.vk.VkManager;
+import makarov.vk.vkgroupchats.vk.VkRequestsFactory;
 
 @Module
 public class AppModule {
@@ -36,8 +37,14 @@ public class AppModule {
 
     @Provides
     @Singleton
-    VkManager provideVkManager(Storage storage, ChatJsonParser jsonParser) {
-        return new VkManager(mApplication, storage, jsonParser);
+    VkManager provideVkManager(Storage storage) {
+        return new VkManager(mApplication);
+    }
+
+    @Provides
+    @Singleton
+    VkRequestsFactory provideVkRequestsFactory(Storage storage, ChatJsonParser jsonParser) {
+        return new VkRequestsFactory(storage, jsonParser);
     }
 
     @Provides

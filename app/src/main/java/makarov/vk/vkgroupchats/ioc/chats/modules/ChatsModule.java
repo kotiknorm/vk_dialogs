@@ -6,10 +6,12 @@ import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
+import makarov.vk.vkgroupchats.data.Storage;
 import makarov.vk.vkgroupchats.presentation.UiNavigator;
-import makarov.vk.vkgroupchats.presentation.presenters.ChatPresenter;
 import makarov.vk.vkgroupchats.presentation.presenters.ChatsListPresenter;
+import makarov.vk.vkgroupchats.presentation.presenters.PresenterFactory;
 import makarov.vk.vkgroupchats.vk.VkManager;
+import makarov.vk.vkgroupchats.vk.VkRequestsFactory;
 
 @Module
 public class ChatsModule {
@@ -33,13 +35,15 @@ public class ChatsModule {
     }
 
     @Provides
-    ChatPresenter provideChatPresenter() {
-        return new ChatPresenter();
+    PresenterFactory provideChatPresenter(VkManager vkManager, VkRequestsFactory vkRequestsFactory,
+                                          UiNavigator uiNavigator, Storage storage) {
+        return new PresenterFactory(vkManager, vkRequestsFactory, uiNavigator, storage);
     }
 
     @Provides
-    ChatsListPresenter provideChatsListPresenter(VkManager vkManager) {
-        return new ChatsListPresenter(vkManager);
+    ChatsListPresenter provideChatsListPresenter(VkManager vkManager, VkRequestsFactory factory,
+                                                 UiNavigator uiNavigator) {
+        return new ChatsListPresenter(vkManager, factory, uiNavigator);
     }
 
 }

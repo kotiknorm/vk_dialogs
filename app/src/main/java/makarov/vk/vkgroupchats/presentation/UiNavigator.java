@@ -1,6 +1,7 @@
 package makarov.vk.vkgroupchats.presentation;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
@@ -12,6 +13,7 @@ import com.vk.sdk.api.VKError;
 import javax.inject.Inject;
 
 import makarov.vk.vkgroupchats.R;
+import makarov.vk.vkgroupchats.data.models.Chat;
 import makarov.vk.vkgroupchats.presentation.view.ChatFragment;
 import makarov.vk.vkgroupchats.presentation.view.ChatView;
 import makarov.vk.vkgroupchats.presentation.view.ChatsListFragment;
@@ -51,20 +53,30 @@ public class UiNavigator {
 
     public ChatsListView showChatsList() {
         ChatsListFragment fragment = new ChatsListFragment();
-        addView(fragment);
+        addView(fragment, true);
         return fragment;
     }
 
-    public ChatView showChat() {
+    public ChatView showChat(Chat chat) {
         ChatFragment fragment = new ChatFragment();
-        addView(fragment);
+
+        Bundle bundle = new Bundle();
+        bundle.putInt(ChatFragment.CHAT_ID_EXTRA, chat.getChatId());
+
+        fragment.setArguments(bundle);
+        addView(fragment, true);
         return fragment;
     }
 
-    private void addView(Fragment fragment) {
+    private void addView(Fragment fragment, boolean withReplace) {
         FragmentTransaction transaction = mActivity.getSupportFragmentManager().beginTransaction();
-        transaction.setCustomAnimations(R.anim.fade_in, R.anim.fade_out);
-        transaction.replace(R.id.parent_container, fragment);
+        if (withReplace) {
+            transaction.replace(R.id.parent_container, fragment);
+        } else {
+            transaction.add(R.id.parent_container, fragment);
+        }
+
+        transaction.addToBackStack("stack");
         transaction.commitAllowingStateLoss();
     }
 }

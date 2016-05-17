@@ -46,7 +46,7 @@ public class ChatsListFragment extends MvpFragment<ChatsListPresenter, ChatsComp
 
     @Override
     public void showChats(List<Chat> list) {
-        ChatsAdapter adapter = new ChatsAdapter(getContext(), list);
+        ChatsAdapter adapter = new ChatsAdapter(getContext(), list, mChatsListPresenter);
         mChatsList.setAdapter(adapter);
     }
 }

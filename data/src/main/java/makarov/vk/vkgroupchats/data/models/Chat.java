@@ -9,7 +9,7 @@ public class Chat extends RealmObject {
 
     @PrimaryKey
     @SerializedName("chat_id")
-    private String chatId;
+    private int chatId;
     private Long date;
     private String title;
 
@@ -25,7 +25,7 @@ public class Chat extends RealmObject {
     @SerializedName("photo_200")
     private String photo200;
 
-    public Chat(String chatId, Long date, String title, int usersCount) {
+    public Chat(int chatId, Long date, String title, int usersCount) {
         this.chatId = chatId;
         this.date = date;
         this.title = title;
@@ -36,7 +36,7 @@ public class Chat extends RealmObject {
 
     }
 
-    public String getChatId() {
+    public int getChatId() {
         return chatId;
     }
 
@@ -48,7 +48,7 @@ public class Chat extends RealmObject {
         return date;
     }
 
-    public void setChatId(String chat) {
+    public void setChatId(int chat) {
         this.chatId = chat;
     }
 

@@ -1,7 +1,6 @@
 package makarov.vk.vkgroupchats.presentation.adapters;
 
 import android.content.Context;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,12 +16,24 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import makarov.vk.vkgroupchats.R;
 import makarov.vk.vkgroupchats.data.models.Chat;
+import makarov.vk.vkgroupchats.presentation.presenters.ChatsListPresenter;
 import makarov.vk.vkgroupchats.utils.DateUtils;
 
 public class ChatsAdapter extends RecyclerListAdapter<ChatsAdapter.ViewHolder, Chat> {
 
-    public ChatsAdapter(Context context, List<Chat> list) {
+    private final ChatsListPresenter mChatsListPresenter;
+
+    private final View.OnClickListener mOnClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            Chat chat = (Chat) view.getTag();
+            mChatsListPresenter.onClickChat(chat);
+        }
+    };
+
+    public ChatsAdapter(Context context, List<Chat> list, ChatsListPresenter chatsListPresenter) {
         super(context, list);
+        mChatsListPresenter = chatsListPresenter;
     }
 
     @Override
@@ -37,7 +48,10 @@ public class ChatsAdapter extends RecyclerListAdapter<ChatsAdapter.ViewHolder, C
 
         holder.chatName.setText(chat.getTitle());
         holder.date.setText(DateUtils.chatLastMessage(chat.getDate()));
+        holder.body.setText(chat.getTitle());
+
         holder.itemView.setTag(chat);
+        holder.itemView.setOnClickListener(mOnClickListener);
 
         Picasso.with(getContext()).load(chat.getPhoto()).into(holder.image);
     }
