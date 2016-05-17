@@ -23,6 +23,8 @@ ext {
   butterKnifeVersion = '7.0.1'
   supportVersion = '23.3.0'
   javaxAnnotationVersion = '1.0'
+  gsonVersion = '2.6.1'
+  picassoVersion = '2.5.2'
 
   //Testing
   robolectricVersion = '3.0'
@@ -40,6 +42,8 @@ ext {
           supportDesign:                  "com.android.support:design:${supportVersion}",
           supportV13:                     "com.android.support:support-v13:${supportVersion}",
           javaxAnnotationVersion:         "javax.annotation:jsr250-api:${javaxAnnotationVersion}",
+          gson:                           "com.google.code.gson:gson:${gsonVersion}",
+          picasso:                        "com.squareup.picasso:picasso:${picassoVersion}",
   ]
 
   mvpDependencies = [

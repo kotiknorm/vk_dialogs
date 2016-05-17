@@ -17,10 +17,9 @@ public class ChatsListPresenter extends BasePresenter<ChatsListView> {
     private final Loader<List<Chat>> mLoader = new Loader<List<Chat>>() {
         @Override
         public void onLoaded(List<Chat> result, Exception e) {
-            if (e != null) {
+            if (e != null || !isAttachedToView()) {
                 return;
             }
-
             getView().showChats(result);
         }
     };

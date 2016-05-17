@@ -13,12 +13,13 @@ public abstract class MvpFragment<PresenterType extends Presenter, ComponentType
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         inject();
+        mPresenter.onAttachView(this);
     }
 
     @Override
     public void onViewCreated(android.view.View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        mPresenter.onAttachView(this);
+
     }
 
     protected PresenterType getPresenter() {

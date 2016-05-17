@@ -58,6 +58,8 @@ dependencies {
     compile presentationDependencies.dagger
     compile presentationDependencies.javaxAnnotationVersion
     compile presentationDependencies.butterKnife
+    compile presentationDependencies.gson
+    compile presentationDependencies.picasso
 
     forceCompile presentationDependencies.supportV4
     forceCompile presentationDependencies.recyclerView

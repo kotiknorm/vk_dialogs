@@ -33,7 +33,7 @@ public class UiNavigator {
         mVkManager.onActivityResult(requestCode, resultCode, data, new VKCallback<VKAccessToken>() {
             @Override
             public void onResult(VKAccessToken res) {
-
+                showChatsList();
             }
 
             @Override
@@ -44,7 +44,9 @@ public class UiNavigator {
     }
 
     public void onStart() {
-        mVkManager.login(mActivity);
+        if (mVkManager.login(mActivity)) {
+            showChatsList();
+        }
     }
 
     public ChatsListView showChatsList() {

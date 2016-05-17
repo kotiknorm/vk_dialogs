@@ -42,4 +42,5 @@ dependencies {
   apt dataDependencies.daggerCompiler
   compile dataDependencies.dagger
   compile dataDependencies.javaxAnnotationVersion
+  compile 'com.google.code.gson:gson:2.6.1'
 }

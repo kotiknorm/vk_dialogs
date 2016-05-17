@@ -5,9 +5,8 @@ import makarov.vk.vkgroupchats.data.models.Chat;
 
 public class ChatsQuery extends RealmBaseQuery<Chat> {
 
-    public ChatsQuery(Storage realmStorage, String kidUuid) {
+    public ChatsQuery(Storage realmStorage) {
         super(realmStorage, Chat.class);
-        mRealmQuery.contains("kidUuid", kidUuid);
     }
 
 }
