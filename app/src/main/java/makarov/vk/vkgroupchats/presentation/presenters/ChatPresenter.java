@@ -30,8 +30,10 @@ public class ChatPresenter extends BasePresenter<ChatView> {
             if (e != null || !isAttachedToView()) {
                 return;
             }
+            if (result != null) {
+                getView().addMessages(result);
+            }
 
-            getView().addMessages(result);
         }
     };
 

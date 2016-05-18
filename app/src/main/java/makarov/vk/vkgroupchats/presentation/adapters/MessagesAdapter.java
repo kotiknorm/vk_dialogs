@@ -14,6 +14,8 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
 import makarov.vk.vkgroupchats.R;
 import makarov.vk.vkgroupchats.data.models.Message;
 import makarov.vk.vkgroupchats.data.models.Photo;
@@ -37,28 +39,31 @@ public class MessagesAdapter extends RecyclerListAdapter<MessagesAdapter.ViewHol
         if (message.hasBody()) {
             holder.addMessage(message.getBody());
         }
-
-        if (message.hasPhotos()) {
-            holder.addImages(message.getPhotos());
-        }
+//
+//        if (message.hasPhotos()) {
+//            holder.addImages(message.getPhotos());
+//        }
 
         holder.itemView.setTag(message);
     }
 
     protected class ViewHolder extends RecyclerView.ViewHolder {
 
+        @Bind(R.id.text) TextView text;
+
         public ViewHolder(View itemLayoutView) {
             super(itemLayoutView);
+            ButterKnife.bind(this, itemLayoutView);
         }
 
         public void addMessage(String body) {
-            TextView textView = new TextView(getContext());
-            textView.setLayoutParams(new
-                    LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
-                    LinearLayout.LayoutParams.WRAP_CONTENT));
-
-            textView.setText(body);
-            ((ViewGroup) itemView).addView(textView);
+//            TextView textView = new TextView(getContext());
+//            textView.setLayoutParams(new
+//                    LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
+//                    LinearLayout.LayoutParams.WRAP_CONTENT));
+//
+            text.setText(body);
+//            ((ViewGroup) itemView).addView(textView);
         }
 
         public void addImages(List<Photo> photos) {

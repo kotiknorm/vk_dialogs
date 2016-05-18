@@ -66,4 +66,6 @@ dependencies {
     forceCompile presentationDependencies.supportDesign
     forceCompile presentationDependencies.supportV13
 
+    compile 'com.malinskiy:superrecyclerview:1.1.4'
+
 }

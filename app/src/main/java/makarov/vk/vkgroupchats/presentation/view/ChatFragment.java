@@ -3,6 +3,7 @@ package makarov.vk.vkgroupchats.presentation.view;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -40,7 +41,7 @@ public class ChatFragment extends MvpFragment<ChatPresenter, ChatsComponent>
         View view = inflater.inflate(R.layout.chat, container, false);
         ButterKnife.bind(this, view);
 
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
+        StaggeredGridLayoutManager linearLayoutManager = new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL);
         mMessagesList.setLayoutManager(linearLayoutManager);
 
         mAdapter = new MessagesAdapter(getContext());
