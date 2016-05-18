@@ -16,7 +16,7 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import makarov.vk.vkgroupchats.common.Loader;
+import makarov.vk.vkgroupchats.vk.common.Loader;
 
 public class VkManager {
 
@@ -40,7 +40,6 @@ public class VkManager {
         }
     };
 
-    @Inject
     public VkManager(Context context) {
         mVkAccessTokenTracker.startTracking();
     }

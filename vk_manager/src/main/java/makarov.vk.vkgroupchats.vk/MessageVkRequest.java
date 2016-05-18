@@ -14,7 +14,8 @@ import org.json.JSONObject;
 
 import java.util.List;
 
-import makarov.vk.vkgroupchats.common.Loader;
+import makarov.vk.vkgroupchats.vk.common.Loader;
+import makarov.vk.vkgroupchats.vk.parsers.MessageJsonParser;
 
 public class MessageVkRequest extends VkRequest<List> {
 
@@ -22,9 +23,15 @@ public class MessageVkRequest extends VkRequest<List> {
     private static final int CHAT_PREFIX = 2000000000;
     private static final String FUNCTION_NAME = "getHistory";
 
+    private final MessageJsonParser mParser;
+    private final int mChatId;
+
     @Nullable VKRequest mRequest;
 
-    private final int mChatId;
+    public MessageVkRequest(MessageJsonParser parser, int chatId) {
+        mParser = parser;
+        mChatId = chatId;
+    }
 
     class VkApiHistory extends VKApiMessages {
 
@@ -38,10 +45,6 @@ public class MessageVkRequest extends VkRequest<List> {
         }
     }
 
-    public MessageVkRequest(int chatId) {
-        mChatId = chatId;
-    }
-
     @Override
     public void execute(final Loader<List> loader) {
         VKParameters parameters = new VKParameters();
@@ -52,6 +55,8 @@ public class MessageVkRequest extends VkRequest<List> {
             @Override
             public void onComplete(VKResponse response) {
                 super.onComplete(response);
+                VkMessagesResponse vkMessagesResponse = mParser.to(response.json);
+
                 loader.onLoaded(null, null);
             }
 

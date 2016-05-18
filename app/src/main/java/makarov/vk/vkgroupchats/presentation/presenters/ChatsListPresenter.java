@@ -1,7 +1,5 @@
 package makarov.vk.vkgroupchats.presentation.presenters;
 
-import android.app.UiModeManager;
-
 import java.util.List;
 
 import javax.inject.Inject;
@@ -10,7 +8,7 @@ import makarov.vk.vkgroupchats.data.models.Chat;
 import makarov.vk.vkgroupchats.mvp.BasePresenter;
 import makarov.vk.vkgroupchats.presentation.UiNavigator;
 import makarov.vk.vkgroupchats.presentation.view.ChatsListView;
-import makarov.vk.vkgroupchats.common.Loader;
+import makarov.vk.vkgroupchats.vk.common.Loader;
 import makarov.vk.vkgroupchats.vk.VkManager;
 import makarov.vk.vkgroupchats.vk.VkRequestsFactory;
 

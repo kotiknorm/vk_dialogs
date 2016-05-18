@@ -10,11 +10,12 @@ import com.vk.sdk.api.VKResponse;
 
 import java.util.List;
 
-import makarov.vk.vkgroupchats.common.Loader;
+import makarov.vk.vkgroupchats.vk.common.Loader;
 import makarov.vk.vkgroupchats.data.Storage;
 import makarov.vk.vkgroupchats.data.StorageException;
 import makarov.vk.vkgroupchats.data.models.Chat;
 import makarov.vk.vkgroupchats.data.query.ChatsQuery;
+import makarov.vk.vkgroupchats.vk.parsers.ChatJsonParser;
 
 public class ChatsVkRequest extends VkRequest<List<Chat>> {
 

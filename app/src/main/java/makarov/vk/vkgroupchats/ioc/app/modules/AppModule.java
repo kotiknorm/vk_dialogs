@@ -7,10 +7,8 @@ import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
-import makarov.vk.vkgroupchats.GsonCreator;
 import makarov.vk.vkgroupchats.data.Storage;
 import makarov.vk.vkgroupchats.data.StorageImpl;
-import makarov.vk.vkgroupchats.vk.ChatJsonParser;
 import makarov.vk.vkgroupchats.vk.VkManager;
 import makarov.vk.vkgroupchats.vk.VkRequestsFactory;
 
@@ -37,27 +35,14 @@ public class AppModule {
 
     @Provides
     @Singleton
-    VkManager provideVkManager(Storage storage) {
+    VkManager provideVkManager() {
         return new VkManager(mApplication);
     }
 
     @Provides
     @Singleton
-    VkRequestsFactory provideVkRequestsFactory(Storage storage, ChatJsonParser jsonParser) {
-        return new VkRequestsFactory(storage, jsonParser);
+    VkRequestsFactory provideVkRequestsFactory(Storage storage) {
+        return new VkRequestsFactory(storage);
     }
-
-    @Provides
-    @Singleton
-    GsonCreator provideGsonCreator() {
-        return new GsonCreator();
-    }
-
-    @Provides
-    @Singleton
-    ChatJsonParser provideChatJsonParser(GsonCreator gsonCreator) {
-        return new ChatJsonParser(gsonCreator);
-    }
-
 
 }

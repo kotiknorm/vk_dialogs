@@ -1,4 +1,4 @@
-package makarov.vk.vkgroupchats.common;
+package makarov.vk.vkgroupchats.vk.parsers;
 
 public interface Transfer<T, E> {
 

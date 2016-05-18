@@ -2,7 +2,7 @@ package makarov.vk.vkgroupchats.vk;
 
 import com.vk.sdk.api.VKRequest;
 
-import makarov.vk.vkgroupchats.common.Loader;
+import makarov.vk.vkgroupchats.vk.common.Loader;
 
 public abstract class VkRequest<T> {
 

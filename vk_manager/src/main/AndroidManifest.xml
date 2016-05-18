@@ -1,0 +1,5 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="makarov.vk.vkgroupchats.vk">
+
+  <application android:allowBackup="true" />
+</manifest>

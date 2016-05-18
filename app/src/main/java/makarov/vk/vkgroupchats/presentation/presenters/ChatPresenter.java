@@ -4,7 +4,7 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import makarov.vk.vkgroupchats.common.Loader;
+import makarov.vk.vkgroupchats.vk.common.Loader;
 import makarov.vk.vkgroupchats.data.Storage;
 import makarov.vk.vkgroupchats.data.models.Chat;
 import makarov.vk.vkgroupchats.data.query.ChatsQuery;

@@ -1,9 +1,9 @@
-package makarov.vk.vkgroupchats.utils;
+package makarov.vk.vkgroupchats.data.utils;
 
 import android.support.annotation.Nullable;
 import android.util.Log;
 
-import makarov.vk.vkgroupchats.BuildConfig;
+import makarov.vk.vkgroupchats.data.BuildConfig;
 
 /**
  * Wrapper class for assertion. In debug it works as ordinary Assert;

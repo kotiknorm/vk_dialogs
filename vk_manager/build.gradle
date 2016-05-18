@@ -9,6 +9,7 @@ apply plugin: 'com.neenbedankt.android-apt'
 apply plugin: 'realm-android'
 
 android {
+  defaultPublishConfig "debug"
 
   def globalConfiguration = rootProject.extensions.getByName("ext")
 
@@ -37,13 +38,14 @@ android {
 }
 
 dependencies {
-  def dataDependencies = rootProject.ext.dataDependencies
+  def mvpDependencies = rootProject.ext.mvpDependencies
   def presentationDependencies = rootProject.ext.presentationDependencies
 
-  apt dataDependencies.daggerCompiler
-  compile dataDependencies.dagger
-  compile dataDependencies.javaxAnnotationVersion
-  compile dataDependencies.androidAnnotations
+  compile project(':data')
+  compile 'com.vk:androidsdk:1.6.5'
 
+  compile mvpDependencies.androidAnnotations
+
+  compile presentationDependencies.gson
   compile presentationDependencies.gson
 }

@@ -2,9 +2,9 @@ package makarov.vk.vkgroupchats.ioc.chats;
 
 import android.support.v7.app.AppCompatActivity;
 
+import makarov.vk.vkgroupchats.data.utils.Assert;
 import makarov.vk.vkgroupchats.ioc.app.IocInjector;
 import makarov.vk.vkgroupchats.ioc.chats.modules.ChatsModule;
-import makarov.vk.vkgroupchats.utils.Assert;
 
 public class ChatsInjector {
 

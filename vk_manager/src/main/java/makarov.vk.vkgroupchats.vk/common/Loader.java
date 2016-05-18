@@ -1,4 +1,4 @@
-package makarov.vk.vkgroupchats.common;
+package makarov.vk.vkgroupchats.vk.common;
 
 public interface Loader<T> {
 

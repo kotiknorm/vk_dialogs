@@ -2,8 +2,8 @@ package makarov.vk.vkgroupchats.ioc.app;
 
 import android.app.Application;
 
+import makarov.vk.vkgroupchats.data.utils.Assert;
 import makarov.vk.vkgroupchats.ioc.app.modules.AppModule;
-import makarov.vk.vkgroupchats.utils.Assert;
 
 public class IocInjector {
 

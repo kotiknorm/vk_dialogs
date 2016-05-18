@@ -52,7 +52,7 @@ dependencies {
 
     compile project(':data')
     compile project(':mvp')
-    compile 'com.vk:androidsdk:1.6.5'
+    compile project(':vk_manager')
 
     apt presentationDependencies.daggerCompiler
     compile presentationDependencies.dagger

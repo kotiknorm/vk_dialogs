@@ -1,6 +1,9 @@
-package makarov.vk.vkgroupchats.vk;
+package makarov.vk.vkgroupchats.vk.parsers;
 
 import android.support.annotation.Nullable;
+
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -9,20 +12,16 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.inject.Inject;
-
-import makarov.vk.vkgroupchats.GsonCreator;
-import makarov.vk.vkgroupchats.common.Transfer;
+import makarov.vk.vkgroupchats.data.utils.Assert;
+import makarov.vk.vkgroupchats.vk.VkChatsResponse;
 import makarov.vk.vkgroupchats.data.models.Chat;
-import makarov.vk.vkgroupchats.utils.Assert;
 
 public class ChatJsonParser implements Transfer<VkChatsResponse, JSONObject> {
 
-    private final GsonCreator mGsonCreator;
+    private final Gson mGson;
 
-    @Inject
-    public ChatJsonParser(GsonCreator gsonCreator) {
-        mGsonCreator = gsonCreator;
+    public ChatJsonParser() {
+        mGson = new GsonBuilder().create();
     }
 
     @Override
@@ -63,7 +62,7 @@ public class ChatJsonParser implements Transfer<VkChatsResponse, JSONObject> {
 
     @Nullable
     private Chat parseChat(JSONObject data) {
-        return mGsonCreator.getGson().fromJson(data.toString(), Chat.class);
+        return mGson.fromJson(data.toString(), Chat.class);
     }
 
     @Override
