@@ -14,13 +14,13 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import javax.inject.Inject;
-
 import makarov.vk.vkgroupchats.vk.common.Loader;
 
 public class VkManager {
 
-    private static final String[] mScope = new String[]{
+    public static final String API_VERSION = "5.52";
+
+    private static final String[] SCOPE = new String[]{
             VKScope.FRIENDS,
             VKScope.WALL,
             VKScope.PHOTOS,
@@ -44,6 +44,11 @@ public class VkManager {
         mVkAccessTokenTracker.startTracking();
     }
 
+    public static void init(Context context) {
+        VKSdk.customInitialize(context,
+                context.getResources().getInteger(R.integer.com_vk_sdk_AppId), API_VERSION);
+    }
+
     public <T>void executeRequest(final Loader<T> loader, VkRequest<T> request) {
         mRunningRequests.add(new RequestEntry(loader, request));
         request.execute(new Loader<T>() {
@@ -60,7 +65,7 @@ public class VkManager {
             return true;
         }
 
-        VKSdk.login(activity, mScope);
+        VKSdk.login(activity, SCOPE);
         return false;
     }
 

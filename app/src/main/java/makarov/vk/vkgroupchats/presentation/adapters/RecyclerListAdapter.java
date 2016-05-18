@@ -21,6 +21,12 @@ public abstract class RecyclerListAdapter<ViewHolder extends RecyclerView.ViewHo
 
     public void changeList(List<T> newList) {
         mList = newList;
+        notifyDataSetChanged();
+    }
+
+    public void addItems(List<T> list) {
+        mList.addAll(list);
+        notifyDataSetChanged();
     }
 
     public List<T> getList() {

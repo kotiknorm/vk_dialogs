@@ -12,7 +12,6 @@ import java.util.List;
 
 import makarov.vk.vkgroupchats.vk.common.Loader;
 import makarov.vk.vkgroupchats.data.Storage;
-import makarov.vk.vkgroupchats.data.StorageException;
 import makarov.vk.vkgroupchats.data.models.Chat;
 import makarov.vk.vkgroupchats.data.query.ChatsQuery;
 import makarov.vk.vkgroupchats.vk.parsers.ChatJsonParser;
@@ -36,10 +35,19 @@ public class ChatsVkRequest extends VkRequest<List<Chat>> {
         ChatsQuery chatsQuery = new ChatsQuery(mStorage);
         List<Chat> chats = chatsQuery.find();
         if (chats.size() >= COUNT_CHATS) {
-            loader.onLoaded(chats, null);
+//            loader.onLoaded(chats, null);
+//            return;
         }
 
         loadChats(loader, COUNT_CHATS, 0);
+    }
+
+    @Override
+    VKParameters getParameters() {
+        VKParameters parameters = new VKParameters();
+        parameters.put(Fields.COUNT, CHATS_LIMIT);
+        parameters.put(Fields.PREVIEW_LENGTH, 20);
+        return parameters;
     }
 
     @Override
@@ -50,20 +58,18 @@ public class ChatsVkRequest extends VkRequest<List<Chat>> {
     }
 
     private void loadChats(final Loader<List<Chat>> loader, final int countChats, final int page) {
-        VKParameters parameters = new VKParameters();
-        parameters.put("count", CHATS_LIMIT);
-        parameters.put("offset", CHATS_LIMIT * page);
-        parameters.put("preview_length", 20);
+        VKParameters parameters = getParameters();
+        parameters.put(Fields.OFFSET, CHATS_LIMIT * page);
         mRequest = VKApi.messages().getDialogs(parameters);
         loadFromNetwork(mRequest, new VKRequest.VKRequestListener() {
             @Override
             public void onComplete(VKResponse response) {
                 super.onComplete(response);
-                VkChatsResponse vkChatsResponse = mParser.to(response.json);
-                List<Chat> chats = vkChatsResponse.getChats();
-                int fullCount = vkChatsResponse.getCountChats();
 
                 try {
+                    VkChatsResponse vkChatsResponse = mParser.to(response.json);
+                    List<Chat> chats = vkChatsResponse.getChats();
+                    int fullCount = vkChatsResponse.getCountChats();
                     mStorage.saveAll(chats);
 
                     if (chats.size() >= countChats || CHATS_LIMIT * page >= fullCount) {
@@ -73,7 +79,7 @@ public class ChatsVkRequest extends VkRequest<List<Chat>> {
                     }
 
                     loadChats(loader, countChats - chats.size(), page + 1);
-                } catch (StorageException e) {
+                } catch (Exception e) {
                     loader.onLoaded(null, e);
                 }
             }

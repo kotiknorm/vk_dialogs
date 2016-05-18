@@ -14,21 +14,25 @@ import org.json.JSONObject;
 
 import java.util.List;
 
+import makarov.vk.vkgroupchats.data.Storage;
+import makarov.vk.vkgroupchats.data.models.Message;
 import makarov.vk.vkgroupchats.vk.common.Loader;
 import makarov.vk.vkgroupchats.vk.parsers.MessageJsonParser;
 
-public class MessageVkRequest extends VkRequest<List> {
+public class MessageVkRequest extends PaginationVkRequest<List<Message>> {
 
     private static final int COUNT_MESSAGES = 20;
     private static final int CHAT_PREFIX = 2000000000;
     private static final String FUNCTION_NAME = "getHistory";
 
     private final MessageJsonParser mParser;
+    private final Storage mStorage;
     private final int mChatId;
 
     @Nullable VKRequest mRequest;
 
-    public MessageVkRequest(MessageJsonParser parser, int chatId) {
+    public MessageVkRequest(Storage storage, MessageJsonParser parser, int chatId) {
+        mStorage = storage;
         mParser = parser;
         mChatId = chatId;
     }
@@ -46,18 +50,28 @@ public class MessageVkRequest extends VkRequest<List> {
     }
 
     @Override
-    public void execute(final Loader<List> loader) {
-        VKParameters parameters = new VKParameters();
-        parameters.put("count", COUNT_MESSAGES);
-        parameters.put("peer_id", CHAT_PREFIX + mChatId);
+    VKParameters getParameters() {
+        VKParameters parameters = super.getParameters();
+        parameters.put(Fields.COUNT, COUNT_MESSAGES);
+        parameters.put(Fields.PEER_ID, CHAT_PREFIX + mChatId);
+        return parameters;
+    }
+
+    @Override
+    public void execute(final Loader<List<Message>> loader) {
+        VKParameters parameters = getParameters();
         mRequest = new VkApiHistory().getHistory(parameters);
         loadFromNetwork(mRequest, new VKRequest.VKRequestListener() {
             @Override
             public void onComplete(VKResponse response) {
                 super.onComplete(response);
-                VkMessagesResponse vkMessagesResponse = mParser.to(response.json);
 
-                loader.onLoaded(null, null);
+                try {
+                    VkMessagesResponse vkMessagesResponse = mParser.to(response.json);
+                    loader.onLoaded(vkMessagesResponse.getMessages(), null);
+                } catch (Exception e) {
+                    loader.onLoaded(null, e);
+                }
             }
 
             @Override

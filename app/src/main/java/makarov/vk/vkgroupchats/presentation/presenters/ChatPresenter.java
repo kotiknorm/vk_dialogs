@@ -4,6 +4,8 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import makarov.vk.vkgroupchats.data.models.Message;
+import makarov.vk.vkgroupchats.vk.PaginationVkRequest;
 import makarov.vk.vkgroupchats.vk.common.Loader;
 import makarov.vk.vkgroupchats.data.Storage;
 import makarov.vk.vkgroupchats.data.models.Chat;
@@ -20,13 +22,16 @@ public class ChatPresenter extends BasePresenter<ChatView> {
     private final VkRequestsFactory mVkRequestsFactor;
     private final UiNavigator mUiNavigator;
     private final Chat mChat;
+    private final PaginationVkRequest mRequest;
 
-    private final Loader<List> mLoader = new Loader<List>() {
+    private final Loader<List<Message>> mLoader = new Loader<List<Message>>() {
         @Override
-        public void onLoaded(List result, Exception e) {
+        public void onLoaded(List<Message> result, Exception e) {
             if (e != null || !isAttachedToView()) {
                 return;
             }
+
+            getView().addMessages(result);
         }
     };
 
@@ -37,18 +42,24 @@ public class ChatPresenter extends BasePresenter<ChatView> {
         mVkManager = vkManager;
         mVkRequestsFactor = vkRequestsFactory;
         mUiNavigator = uiNavigator;
+
+        mRequest = mVkRequestsFactor.getMessages(mChat.getChatId());
     }
 
     @Override
     public void onStart() {
         super.onStart();
-        mVkManager.executeRequest(mLoader, mVkRequestsFactor.getMessages(mChat.getChatId()));
+        mVkManager.executeRequest(mLoader, mRequest);
     }
 
     @Override
     public void onStop() {
         super.onStop();
         mVkManager.cancel(mLoader);
+    }
+
+    public void onLoadMore(int page, int totalItemsCount) {
+        mRequest.executePage(totalItemsCount, mLoader);
     }
 
 }

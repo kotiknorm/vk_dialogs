@@ -30,8 +30,8 @@ public class VkRequestsFactory {
         return new ChatsVkRequest(mStorage, mChatJsonParser);
     }
 
-    public VkRequest getMessages(int chatId) {
-        return new MessageVkRequest(mMessageJsonParser, chatId);
+    public PaginationVkRequest getMessages(int chatId) {
+        return new MessageVkRequest(mStorage, mMessageJsonParser, chatId);
     }
 
 }
