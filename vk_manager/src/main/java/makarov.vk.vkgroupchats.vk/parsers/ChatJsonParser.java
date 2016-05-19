@@ -30,12 +30,12 @@ public class ChatJsonParser implements Transfer<VkChatsResponse, JSONObject> {
         int fullCount = 0;
 
         try {
-            data = data.getJSONObject("response");
-            fullCount = data.getInt("count");
+            data = data.getJSONObject(Fields.RESPONSE);
+            fullCount = data.getInt(Fields.COUNT);
 
-            JSONArray dialogs = data.getJSONArray("items");
+            JSONArray dialogs = data.getJSONArray(Fields.ITEMS);
             for(int i = 0; i < dialogs.length(); i++) {
-                JSONObject dialog = dialogs.getJSONObject(i).getJSONObject("message");
+                JSONObject dialog = dialogs.getJSONObject(i).getJSONObject(Fields.MESSAGE);
                 if (isGroupChat(dialog)) {
                     Chat chat = parseChat(dialog);
                     if (chat != null) {
@@ -54,7 +54,7 @@ public class ChatJsonParser implements Transfer<VkChatsResponse, JSONObject> {
 
     private boolean isGroupChat(@Nullable JSONObject data) {
         try {
-            return data != null && data.has("users_count") && data.getInt("users_count") > 1;
+            return data != null && data.has(Fields.USERS_COUNT) && data.getInt(Fields.USERS_COUNT) > 1;
         } catch (JSONException e) {
             return false;
         }

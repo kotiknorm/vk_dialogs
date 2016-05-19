@@ -39,7 +39,7 @@ public class MessageJsonParser implements Transfer<VkMessagesResponse, JSONObjec
     public VkMessagesResponse to(JSONObject data) {
 
         try {
-            data = data.getJSONObject("response");
+            data = data.getJSONObject(Fields.RESPONSE);
             return mGson.fromJson(data.toString(), VkMessagesResponse.class);
         } catch (JSONException e) {
             Assert.fail(e);
@@ -60,11 +60,11 @@ public class MessageJsonParser implements Transfer<VkMessagesResponse, JSONObjec
                 throws JsonParseException {
             final JsonObject jsonObject = json.getAsJsonObject();
 
-            final int id = jsonObject.get("id").getAsInt();
-            final String body = jsonObject.get("body").getAsString();
-            final Long date = jsonObject.get("date").getAsLong();
-            final String userId = jsonObject.get("user_id").getAsString();
-            final String fromId = jsonObject.get("from_id").getAsString();
+            final int id = jsonObject.get(Fields.ID).getAsInt();
+            final String body = jsonObject.get(Fields.BODY).getAsString();
+            final Long date = jsonObject.get(Fields.DATE).getAsLong();
+            final String userId = jsonObject.get(Fields.USER_ID).getAsString();
+            final String fromId = jsonObject.get(Fields.FROM_ID).getAsString();
 
             Message message = new Message();
             message.setBody(body);
@@ -75,13 +75,13 @@ public class MessageJsonParser implements Transfer<VkMessagesResponse, JSONObjec
 
             List<Photo> photos = new ArrayList<>();
 
-            if (jsonObject.has("attachments")) {
-                final JsonArray attachments = jsonObject.get("attachments").getAsJsonArray();
+            if (jsonObject.has(Fields.ATTACHMENTS)) {
+                final JsonArray attachments = jsonObject.get(Fields.ATTACHMENTS).getAsJsonArray();
                 for (int i = 0; i < attachments.size(); i++) {
                     final JsonObject attachment = attachments.get(i).getAsJsonObject();
-                    final String type = attachment.get("type").getAsString();
-                    if (type.equals("photo")) {
-                        Photo photo = mGson.fromJson(attachment.get("photo"), Photo.class);
+                    final String type = attachment.get(Fields.TYPE).getAsString();
+                    if (type.equals(Fields.PHOTO)) {
+                        Photo photo = mGson.fromJson(attachment.get(Fields.PHOTO), Photo.class);
                         photos.add(photo);
                     }
 

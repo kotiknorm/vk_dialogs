@@ -17,8 +17,13 @@ import java.util.List;
 import makarov.vk.vkgroupchats.R;
 import makarov.vk.vkgroupchats.data.models.Message;
 import makarov.vk.vkgroupchats.data.models.Photo;
+import makarov.vk.vkgroupchats.vk.VkManager;
 
 public class MessagesAdapter extends BaseAdapter {
+
+    private static final int CURRENT_USER_MESSAGE = 0;
+    private static final int OTHER_USER_MESSAGE = 1;
+    private static final int UNKNOWN = -1;
 
     List<Message> mList = new ArrayList<>();
     Context mContext;
@@ -29,7 +34,7 @@ public class MessagesAdapter extends BaseAdapter {
     }
 
     public int getItemViewType(int position) {
-        return position % 2;
+        return getMessageType(getItem(position));
     }
 
     @Override
@@ -38,32 +43,30 @@ public class MessagesAdapter extends BaseAdapter {
     }
 
     @Override
-    public Message getItem(int i) {
-        return mList.get(i);
+    public Message getItem(int position) {
+        return mList.get(position);
     }
 
     @Override
-    public long getItemId(int i) {
-        return getItem(i).getId();
+    public long getItemId(int position) {
+        return getItem(position).getId();
     }
 
     @Override
-    public View getView(int i, View convertView, ViewGroup viewGroup) {
+    public View getView(int position, View convertView, ViewGroup viewGroup) {
+        final Message message = getItem(position);
         ViewHolder viewHolder;
 
         if (convertView == null) {
-            if (getItemViewType(i) == 0) {
-                convertView = LayoutInflater.from(mContext).inflate(R.layout.right_message_item, viewGroup, false);
-            } else {
-                convertView = LayoutInflater.from(mContext).inflate(R.layout.left_message_item, viewGroup, false);
-            }
-            viewHolder = new ViewHolder((ViewGroup) convertView.findViewById(R.id.message_container));
-            convertView.setTag(viewHolder);
+            convertView = createViewWithHolder(getItemViewType(position), viewGroup);
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
+            if (viewHolder.mMessageType != getMessageType(message)) {
+                convertView = createViewWithHolder(getItemViewType(position), viewGroup);
+            }
         }
 
-        final Message message = mList.get(i);
+        viewHolder = (ViewHolder) convertView.getTag();
         viewHolder.setMessage(message);
 
         return convertView;
@@ -74,13 +77,29 @@ public class MessagesAdapter extends BaseAdapter {
         notifyDataSetChanged();
     }
 
-    private static class ViewHolder {
+    private View createViewWithHolder(int viewType, ViewGroup viewGroup) {
+        View convertView = createView(viewType, viewGroup);
+        ViewHolder  viewHolder = new ViewHolder((ViewGroup) convertView.findViewById(R.id.message_container));
+        convertView.setTag(viewHolder);
+        return convertView;
+    }
+
+    private View createView(int viewType,  ViewGroup viewGroup) {
+        if (viewType == CURRENT_USER_MESSAGE) {
+            return LayoutInflater.from(mContext).inflate(R.layout.right_message_item, viewGroup, false);
+        } else {
+            return LayoutInflater.from(mContext).inflate(R.layout.left_message_item, viewGroup, false);
+        }
+    }
+
+    private class ViewHolder {
 
         private final ViewGroup mParentView;
         private int mMessageId;
+        public int mMessageType = UNKNOWN;
 
         ViewHolder(ViewGroup parentView) {
-            mParentView = (ViewGroup) parentView;
+            mParentView = parentView;
         }
 
         private Context getContext() {
@@ -125,6 +144,7 @@ public class MessagesAdapter extends BaseAdapter {
 
             reset();
             mMessageId = message.getId();
+            mMessageType = getMessageType(message);
             if (message.hasBody()) {
                 addMessage(message.getBody());
             }
@@ -134,5 +154,10 @@ public class MessagesAdapter extends BaseAdapter {
             }
         }
 
+    }
+
+    public static int getMessageType(Message message) {
+        return message.getFromId().equals(VkManager.getUserId()) ? CURRENT_USER_MESSAGE :
+                OTHER_USER_MESSAGE;
     }
 }

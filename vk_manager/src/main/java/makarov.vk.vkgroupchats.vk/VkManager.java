@@ -49,6 +49,10 @@ public class VkManager {
                 context.getResources().getInteger(R.integer.com_vk_sdk_AppId), API_VERSION);
     }
 
+    public static String getUserId() {
+        return VKAccessToken.currentToken().userId;
+    }
+
     public <T>void executeRequest(final Loader<T> loader, VkRequest<T> request) {
         mRunningRequests.add(new RequestEntry(loader, request));
         request.execute(new Loader<T>() {
