@@ -67,5 +67,6 @@ dependencies {
     forceCompile presentationDependencies.supportV13
 
     compile 'com.quentindommerc.superlistview:library:1.5.2'
+    compile 'de.hdodenhof:circleimageview:2.0.0'
 
 }

@@ -16,12 +16,15 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import makarov.vk.vkgroupchats.R;
 import makarov.vk.vkgroupchats.data.models.Chat;
+import makarov.vk.vkgroupchats.presentation.image.ImageLoaderStrategy;
+import makarov.vk.vkgroupchats.presentation.image.ImageLoaderStrategyImpl;
 import makarov.vk.vkgroupchats.presentation.presenters.ChatsListPresenter;
 import makarov.vk.vkgroupchats.utils.DateUtils;
 
 public class ChatsAdapter extends RecyclerListAdapter<ChatsAdapter.ViewHolder, Chat> {
 
     private final ChatsListPresenter mChatsListPresenter;
+    private final ImageLoaderStrategy mImageLoaderStrategy;
 
     private final View.OnClickListener mOnClickListener = new View.OnClickListener() {
         @Override
@@ -34,6 +37,7 @@ public class ChatsAdapter extends RecyclerListAdapter<ChatsAdapter.ViewHolder, C
     public ChatsAdapter(Context context, List<Chat> list, ChatsListPresenter chatsListPresenter) {
         super(context, list);
         mChatsListPresenter = chatsListPresenter;
+        mImageLoaderStrategy = new ImageLoaderStrategyImpl(context);
     }
 
     @Override
@@ -53,14 +57,14 @@ public class ChatsAdapter extends RecyclerListAdapter<ChatsAdapter.ViewHolder, C
         holder.itemView.setTag(chat);
         holder.itemView.setOnClickListener(mOnClickListener);
 
-        Picasso.with(getContext()).load(chat.getPhoto()).into(holder.image);
+        mImageLoaderStrategy.loadImage(chat, holder.imagePlace);
     }
 
     protected class ViewHolder extends RecyclerView.ViewHolder {
         @Bind(R.id.chat_name) TextView chatName;
         @Bind(R.id.chat_date) TextView date;
         @Bind(R.id.chat_body) TextView body;
-        @Bind(R.id.chat_image) ImageView image;
+        @Bind(R.id.chat_image) ImageView imagePlace;
 
         public ViewHolder(View itemLayoutView) {
             super(itemLayoutView);

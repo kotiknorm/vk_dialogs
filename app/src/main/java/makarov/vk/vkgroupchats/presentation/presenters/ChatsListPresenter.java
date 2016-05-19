@@ -46,7 +46,7 @@ public class ChatsListPresenter extends BasePresenter<ChatsListView> {
                 return;
             }
 
-            if (mChats == null) {
+            if (mChats == null || result == null) {
                 return;
             }
 

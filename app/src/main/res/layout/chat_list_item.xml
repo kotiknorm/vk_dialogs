@@ -4,10 +4,10 @@
     android:layout_height="wrap_content"
     android:gravity="center_vertical">
 
-    <ImageView
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/chat_image"
         android:layout_width="64dp"
-        android:layout_height="64dp"
-        android:id="@+id/chat_image" />
+        android:layout_height="64dp"/>
 
     <LinearLayout
         android:orientation="vertical"
