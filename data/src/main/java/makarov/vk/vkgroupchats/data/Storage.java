@@ -10,4 +10,6 @@ public interface Storage<ModelType, QueryType> {
 
     void deleteAll(List<? extends ModelType> object) throws StorageException;
 
+    void transaction(Runnable runnable);
+
 }

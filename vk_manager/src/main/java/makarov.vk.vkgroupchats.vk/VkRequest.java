@@ -13,6 +13,8 @@ public abstract class VkRequest<T> {
         static final String PEER_ID = "peer_id";
         static final String OFFSET = "offset";
         static final String PREVIEW_LENGTH = "preview_length";
+        static final String CHAT_IDS = "chat_ids";
+        static final String FIELDS = "fields";
 
     }
 

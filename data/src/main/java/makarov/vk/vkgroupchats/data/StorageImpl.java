@@ -52,6 +52,14 @@ public class StorageImpl implements Storage<RealmObject, RealmBaseQuery> {
         }
     }
 
+    @Override
+    public void transaction(Runnable runnable) {
+        Realm realm = getRealm();
+        realm.beginTransaction();
+        runnable.run();
+        realm.commitTransaction();
+    }
+
     private Realm getRealm() {
         initIfNeeded(mContext);
         return Realm.getDefaultInstance();

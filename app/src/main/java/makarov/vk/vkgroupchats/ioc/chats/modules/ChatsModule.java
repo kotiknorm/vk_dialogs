@@ -42,8 +42,8 @@ public class ChatsModule {
 
     @Provides
     ChatsListPresenter provideChatsListPresenter(VkManager vkManager, VkRequestsFactory factory,
-                                                 UiNavigator uiNavigator) {
-        return new ChatsListPresenter(vkManager, factory, uiNavigator);
+                                                 UiNavigator uiNavigator, Storage storage) {
+        return new ChatsListPresenter(vkManager, factory, uiNavigator, storage);
     }
 
 }
