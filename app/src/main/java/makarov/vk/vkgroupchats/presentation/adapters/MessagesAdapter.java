@@ -1,10 +1,10 @@
 package makarov.vk.vkgroupchats.presentation.adapters;
 
 import android.content.Context;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -14,59 +14,90 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.Bind;
-import butterknife.ButterKnife;
 import makarov.vk.vkgroupchats.R;
 import makarov.vk.vkgroupchats.data.models.Message;
 import makarov.vk.vkgroupchats.data.models.Photo;
 
-public class MessagesAdapter extends RecyclerListAdapter<MessagesAdapter.ViewHolder, Message> {
+public class MessagesAdapter extends BaseAdapter {
+
+    List<Message> mList = new ArrayList<>();
+    Context mContext;
 
     public MessagesAdapter(Context context) {
-        super(context, new ArrayList<Message>());
+        super();
+        mContext = context;
+    }
+
+    public int getItemViewType(int position) {
+        return position % 2;
     }
 
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(getContext()).inflate(R.layout.message_item, parent, false);
-        return new ViewHolder(v);
+    public int getCount() {
+        return mList.size();
     }
 
     @Override
-    public void onBindViewHolder(final ViewHolder holder, int position) {
-        final Message message = getList().get(position);
-
-        if (message.hasBody()) {
-            holder.addMessage(message.getBody());
-        }
-//
-//        if (message.hasPhotos()) {
-//            holder.addImages(message.getPhotos());
-//        }
-
-        holder.itemView.setTag(message);
+    public Message getItem(int i) {
+        return mList.get(i);
     }
 
-    protected class ViewHolder extends RecyclerView.ViewHolder {
+    @Override
+    public long getItemId(int i) {
+        return getItem(i).getId();
+    }
 
-        @Bind(R.id.text) TextView text;
+    @Override
+    public View getView(int i, View convertView, ViewGroup viewGroup) {
+        ViewHolder viewHolder;
 
-        public ViewHolder(View itemLayoutView) {
-            super(itemLayoutView);
-            ButterKnife.bind(this, itemLayoutView);
+        if (convertView == null) {
+            if (getItemViewType(i) == 0) {
+                convertView = LayoutInflater.from(mContext).inflate(R.layout.right_message_item, viewGroup, false);
+            } else {
+                convertView = LayoutInflater.from(mContext).inflate(R.layout.left_message_item, viewGroup, false);
+            }
+            viewHolder = new ViewHolder((ViewGroup) convertView.findViewById(R.id.message_container));
+            convertView.setTag(viewHolder);
+        } else {
+            viewHolder = (ViewHolder) convertView.getTag();
         }
 
-        public void addMessage(String body) {
-//            TextView textView = new TextView(getContext());
-//            textView.setLayoutParams(new
-//                    LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
-//                    LinearLayout.LayoutParams.WRAP_CONTENT));
-//
-            text.setText(body);
-//            ((ViewGroup) itemView).addView(textView);
+        final Message message = mList.get(i);
+        viewHolder.setMessage(message);
+
+        return convertView;
+    }
+
+    public void addItems(List<Message> list) {
+        mList.addAll(list);
+        notifyDataSetChanged();
+    }
+
+    private static class ViewHolder {
+
+        private final ViewGroup mParentView;
+        private int mMessageId;
+
+        ViewHolder(ViewGroup parentView) {
+            mParentView = (ViewGroup) parentView;
         }
 
-        public void addImages(List<Photo> photos) {
+        private Context getContext() {
+            return mParentView.getContext();
+        }
+
+        private void addMessage(String body) {
+            TextView textView = new TextView(getContext());
+            textView.setLayoutParams(new
+                    LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
+                    LinearLayout.LayoutParams.WRAP_CONTENT));
+
+            textView.setText(body);
+            mParentView.addView(textView);
+        }
+
+        private void addImages(List<Photo> photos) {
             for (Photo photo : photos) {
                 ImageView imageView = new ImageView(getContext());
                 LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
@@ -77,10 +108,31 @@ public class MessagesAdapter extends RecyclerListAdapter<MessagesAdapter.ViewHol
                 params.height = imageSize;
                 imageView.setLayoutParams(params);
 
-                ((ViewGroup) itemView).addView(imageView);
+                mParentView.addView(imageView);
                 Picasso.with(getContext()).load(photo.getPhotoUrl()).into(imageView);
             }
 
         }
+
+        private void reset() {
+            mParentView.removeAllViews();
+        }
+
+        public void setMessage(Message message) {
+            if (mMessageId == message.getId()) {
+                return;
+            }
+
+            reset();
+            mMessageId = message.getId();
+            if (message.hasBody()) {
+                addMessage(message.getBody());
+            }
+
+            if (message.hasPhotos()) {
+                addImages(message.getPhotos());
+            }
+        }
+
     }
 }

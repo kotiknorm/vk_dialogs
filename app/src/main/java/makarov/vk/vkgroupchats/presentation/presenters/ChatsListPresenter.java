@@ -41,8 +41,8 @@ public class ChatsListPresenter extends BasePresenter<ChatsListView> {
     }
 
     @Override
-    public void onStart() {
-        super.onStart();
+    public void onViewCreated() {
+        super.onViewCreated();
         mVkManager.executeRequest(mLoader, mVkRequestsFactor.getChats());
     }
 

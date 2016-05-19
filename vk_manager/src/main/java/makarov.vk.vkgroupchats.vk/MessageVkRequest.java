@@ -21,7 +21,7 @@ import makarov.vk.vkgroupchats.vk.parsers.MessageJsonParser;
 
 public class MessageVkRequest extends PaginationVkRequest<List<Message>> {
 
-    private static final int COUNT_MESSAGES = 20;
+    private static final int COUNT_MESSAGES = 40;
     private static final int CHAT_PREFIX = 2000000000;
     private static final String FUNCTION_NAME = "getHistory";
 

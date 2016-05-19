@@ -32,6 +32,7 @@ public class ChatPresenter extends BasePresenter<ChatView> {
             }
             if (result != null) {
                 getView().addMessages(result);
+                getView().hideProgressBar();
             }
 
         }
@@ -61,6 +62,7 @@ public class ChatPresenter extends BasePresenter<ChatView> {
     }
 
     public void onLoadMore(int page, int totalItemsCount) {
+        getView().showProgressBar();
         mRequest.executePage(totalItemsCount, mLoader);
     }
 

@@ -19,7 +19,7 @@ public abstract class MvpFragment<PresenterType extends Presenter, ComponentType
     @Override
     public void onViewCreated(android.view.View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
+        mPresenter.onViewCreated();
     }
 
     protected PresenterType getPresenter() {

@@ -10,6 +10,8 @@ public interface Presenter<ViewType extends View> {
 
     void onDetachView();
 
+    void onViewCreated();
+
     void onStart();
 
     void onStop();

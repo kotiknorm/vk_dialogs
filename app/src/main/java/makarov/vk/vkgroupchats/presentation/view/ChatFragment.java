@@ -9,6 +9,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.quentindommerc.superlistview.OnMoreListener;
+import com.quentindommerc.superlistview.SuperListview;
+
 import java.util.List;
 
 import javax.inject.Inject;
@@ -22,7 +25,6 @@ import makarov.vk.vkgroupchats.mvp.MvpFragment;
 import makarov.vk.vkgroupchats.presentation.adapters.MessagesAdapter;
 import makarov.vk.vkgroupchats.presentation.presenters.ChatPresenter;
 import makarov.vk.vkgroupchats.presentation.presenters.PresenterFactory;
-import makarov.vk.vkgroupchats.presentation.widget.EndlessScrollListener;
 
 public class ChatFragment extends MvpFragment<ChatPresenter, ChatsComponent>
         implements ChatView {
@@ -32,7 +34,7 @@ public class ChatFragment extends MvpFragment<ChatPresenter, ChatsComponent>
     @Inject PresenterFactory mPresenterFactory;
 
     @Bind(R.id.chat_list)
-    RecyclerView mMessagesList;
+    SuperListview mMessagesList;
 
     private MessagesAdapter mAdapter;
 
@@ -41,18 +43,14 @@ public class ChatFragment extends MvpFragment<ChatPresenter, ChatsComponent>
         View view = inflater.inflate(R.layout.chat, container, false);
         ButterKnife.bind(this, view);
 
-        StaggeredGridLayoutManager linearLayoutManager = new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL);
-        mMessagesList.setLayoutManager(linearLayoutManager);
-
         mAdapter = new MessagesAdapter(getContext());
         mMessagesList.setAdapter(mAdapter);
 
-        mMessagesList.addOnScrollListener(new EndlessScrollListener(linearLayoutManager) {
+        mMessagesList.setupMoreListener(new OnMoreListener() {
             @Override
-            public void onLoadMore(int page, int totalItemsCount) {
-                getPresenter().onLoadMore(page, totalItemsCount);
-            }
-        });
+            public void onMoreAsked(int numberOfItems, int numberBeforeMore, int currentItemPos) {
+                getPresenter().onLoadMore(0, numberOfItems);
+            }}, 40);
 
         return view;
     }
@@ -67,6 +65,16 @@ public class ChatFragment extends MvpFragment<ChatPresenter, ChatsComponent>
     @Override
     public void addMessages(List<Message> list) {
         mAdapter.addItems(list);
+    }
+
+    @Override
+    public void showProgressBar() {
+        mMessagesList.showMoreProgress();
+    }
+
+    @Override
+    public void hideProgressBar() {
+        mMessagesList.hideMoreProgress();
     }
 
 }

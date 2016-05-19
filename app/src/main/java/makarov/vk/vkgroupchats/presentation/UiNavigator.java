@@ -64,7 +64,7 @@ public class UiNavigator {
         bundle.putInt(ChatFragment.CHAT_ID_EXTRA, chat.getChatId());
 
         fragment.setArguments(bundle);
-        addView(fragment, true);
+        addView(fragment, false);
         return fragment;
     }
 
