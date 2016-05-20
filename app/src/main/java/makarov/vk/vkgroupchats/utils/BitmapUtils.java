@@ -47,4 +47,9 @@ public class BitmapUtils {
         comboImage.drawBitmap(s, 0f, c.getHeight() + LINE, null);
         return cs;
     }
+
+    public  static Bitmap getVkAvatarBitmap(Bitmap source) {
+        Bitmap result = Bitmap.createBitmap(source, 0, 0, source.getWidth() / 2, source.getHeight());
+        return result;
+    }
 }

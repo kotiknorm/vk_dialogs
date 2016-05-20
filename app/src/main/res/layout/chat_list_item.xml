@@ -8,7 +8,8 @@
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/chat_image"
         android:layout_width="64dp"
-        android:layout_height="64dp"/>
+        android:layout_height="64dp"
+        android:scaleType="centerCrop" />
 
     <LinearLayout
         android:orientation="vertical"

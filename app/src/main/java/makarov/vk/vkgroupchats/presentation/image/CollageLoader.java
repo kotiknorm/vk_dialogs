@@ -79,19 +79,36 @@ public class CollageLoader {
     }
 
     private void setCollage(List<Bitmap> bitmaps) {
-        int size = ImageLoaderStrategyImpl.MAX_COUNT_IMAGES - bitmaps.size();
+        Bitmap result = null;
 
-        BitmapDrawable bitmap = (BitmapDrawable) mContext.getResources().getDrawable(R.mipmap.icon);
-        Bitmap resizedBitmap = Bitmap.createScaledBitmap(
-                bitmap.getBitmap(), bitmaps.get(0).getHeight(), bitmaps.get(0).getWidth(), false);
-        for (int i = 0; i < size; i++) {
-            mBitmaps.add(resizedBitmap);
+        switch (mBitmaps.size()) {
+            case 0:
+                break;
+            case 1:
+                result = mBitmaps.get(0);
+                break;
+            case 2:
+                result = BitmapUtils.joinBitmapsHorizontally(mBitmaps.get(0), mBitmaps.get(1));
+                break;
+            case 3:
+                Bitmap horizontally = BitmapUtils.joinBitmapsVertically(mBitmaps.get(0), mBitmaps.get(1));
+
+                Bitmap resizedBitmap = Bitmap.createScaledBitmap(mBitmaps.get(2),
+                        horizontally.getHeight(), horizontally.getHeight(), false);
+                resizedBitmap = BitmapUtils.getVkAvatarBitmap(resizedBitmap);
+
+                result = BitmapUtils.joinBitmapsHorizontally(resizedBitmap, horizontally);
+                break;
+            case 4:
+                Bitmap horizontallyFirst = BitmapUtils.joinBitmapsHorizontally(mBitmaps.get(0), mBitmaps.get(1));
+                Bitmap horizontallySecond = BitmapUtils.joinBitmapsHorizontally(mBitmaps.get(2), mBitmaps.get(3));
+                result = BitmapUtils.joinBitmapsVertically(horizontallyFirst, horizontallySecond);
+                break;
         }
 
-        Bitmap one = BitmapUtils.joinBitmapsHorizontally(mBitmaps.get(0), mBitmaps.get(1));
-        Bitmap two = BitmapUtils.joinBitmapsHorizontally(mBitmaps.get(2), mBitmaps.get(3));
-        Bitmap result = BitmapUtils.joinBitmapsVertically(one, two);
-        mImageView.setImageBitmap(result);
+        if (result != null) {
+            mImageView.setImageBitmap(result);
+        }
 
         recycle();
     }
