@@ -53,6 +53,7 @@ public class ChatPresenter extends BasePresenter<ChatView> {
     public void onStart() {
         super.onStart();
         mVkManager.executeRequest(mLoader, mRequest);
+        getView().prepareChat(mChat);
     }
 
     @Override

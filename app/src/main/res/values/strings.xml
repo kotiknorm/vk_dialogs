@@ -1,5 +1,15 @@
 <resources>
-    <string name="app_name">VkGroupChats</string>
+
+    <string name="app_name">Список Бесед</string>
+
+    <plurals name="members">
+        <item quantity="zero">нет участников</item>
+        <item quantity="one">%1$d участниу</item>
+        <item quantity="two">%1$d участника</item>
+        <item quantity="few">%1$d участника</item>
+        <item quantity="many">%1$d участников</item>
+        <item quantity="other">%1$d участников</item>
+    </plurals>
 
 
 </resources>

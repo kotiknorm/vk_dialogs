@@ -1,8 +1,10 @@
 package makarov.vk.vkgroupchats.presentation.view;
 
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,11 +28,15 @@ public class ChatsListFragment extends MvpFragment<ChatsListPresenter, ChatsComp
     @Inject ChatsListPresenter mChatsListPresenter;
 
     @Bind(R.id.chats_list) RecyclerView mChatsList;
+    @Bind(R.id.toolbar) Toolbar mToolbar;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.chats_list, container, false);
         ButterKnife.bind(this, view);
+
+        ((AppCompatActivity) getActivity()).setSupportActionBar(mToolbar);
+        mToolbar.setTitle(R.string.app_name);
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         mChatsList.setLayoutManager(linearLayoutManager);
@@ -49,4 +55,6 @@ public class ChatsListFragment extends MvpFragment<ChatsListPresenter, ChatsComp
         ChatsAdapter adapter = new ChatsAdapter(getContext(), list, mChatsListPresenter);
         mChatsList.setAdapter(adapter);
     }
+
+
 }

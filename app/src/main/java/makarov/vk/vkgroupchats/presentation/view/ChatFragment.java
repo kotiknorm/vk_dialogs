@@ -1,10 +1,8 @@
 package makarov.vk.vkgroupchats.presentation.view;
 
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.StaggeredGridLayoutManager;
-import android.util.Log;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +17,7 @@ import javax.inject.Inject;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import makarov.vk.vkgroupchats.R;
+import makarov.vk.vkgroupchats.data.models.Chat;
 import makarov.vk.vkgroupchats.data.models.Message;
 import makarov.vk.vkgroupchats.ioc.chats.ChatsComponent;
 import makarov.vk.vkgroupchats.mvp.MvpFragment;
@@ -33,8 +32,8 @@ public class ChatFragment extends MvpFragment<ChatPresenter, ChatsComponent>
 
     @Inject PresenterFactory mPresenterFactory;
 
-    @Bind(R.id.chat_list)
-    SuperListview mMessagesList;
+    @Bind(R.id.chat_list) SuperListview mMessagesList;
+    @Bind(R.id.toolbar) Toolbar mToolbar;
 
     private MessagesAdapter mAdapter;
 
@@ -45,6 +44,8 @@ public class ChatFragment extends MvpFragment<ChatPresenter, ChatsComponent>
 
         mAdapter = new MessagesAdapter(getContext());
         mMessagesList.setAdapter(mAdapter);
+
+        ((AppCompatActivity) getActivity()).setSupportActionBar(mToolbar);
 
         mMessagesList.setupMoreListener(new OnMoreListener() {
             @Override
@@ -75,6 +76,15 @@ public class ChatFragment extends MvpFragment<ChatPresenter, ChatsComponent>
     @Override
     public void hideProgressBar() {
         mMessagesList.hideMoreProgress();
+    }
+
+    @Override
+    public void prepareChat(Chat chat) {
+        mToolbar.setTitle(chat.getTitle());
+        int countMembers = chat.getUsers().size();
+        String subTitle = getResources().getQuantityString(R.plurals.members,
+                countMembers, countMembers);
+        mToolbar.setSubtitle(subTitle);
     }
 
 }

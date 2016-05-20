@@ -5,6 +5,8 @@ import android.graphics.Canvas;
 
 public class BitmapUtils {
 
+    public static final int LINE = 5;
+
     public static Bitmap joinBitmapsHorizontally(Bitmap c, Bitmap s) {
         Bitmap cs;
         int width, height;
@@ -17,11 +19,11 @@ public class BitmapUtils {
             height = c.getHeight();
         }
 
-        cs = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+        cs = Bitmap.createBitmap(width + LINE, height, Bitmap.Config.ARGB_8888);
         Canvas comboImage = new Canvas(cs);
 
         comboImage.drawBitmap(c, 0f, 0f, null);
-        comboImage.drawBitmap(s, c.getWidth(), 0f, null);
+        comboImage.drawBitmap(s, c.getWidth() + LINE, 0f, null);
         return cs;
     }
 
@@ -38,11 +40,11 @@ public class BitmapUtils {
             width = c.getWidth();
         }
 
-        cs = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+        cs = Bitmap.createBitmap(width, height + LINE, Bitmap.Config.ARGB_8888);
         Canvas comboImage = new Canvas(cs);
 
         comboImage.drawBitmap(c, 0f, 0f, null);
-        comboImage.drawBitmap(s, 0f, c.getHeight(), null);
+        comboImage.drawBitmap(s, 0f, c.getHeight() + LINE, null);
         return cs;
     }
 }
