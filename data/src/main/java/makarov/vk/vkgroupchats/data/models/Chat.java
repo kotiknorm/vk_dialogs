@@ -16,6 +16,12 @@ public class Chat extends RealmObject {
     private int chatId;
     private Long date;
     private String title;
+
+    public String getBody() {
+        return body;
+    }
+
+    private String body;
     private RealmList<User> mUsers;
 
     @SerializedName("users_count")

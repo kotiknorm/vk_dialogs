@@ -55,6 +55,5 @@ public class ChatsListFragment extends MvpFragment<ChatsListPresenter, ChatsComp
         ChatsAdapter adapter = new ChatsAdapter(getContext(), list, mChatsListPresenter);
         mChatsList.setAdapter(adapter);
     }
-
-
+    
 }

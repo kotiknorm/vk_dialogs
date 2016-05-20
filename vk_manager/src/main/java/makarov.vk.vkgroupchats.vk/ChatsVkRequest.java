@@ -46,7 +46,7 @@ public class ChatsVkRequest extends VkRequest<List<Chat>> {
     VKParameters getParameters() {
         VKParameters parameters = new VKParameters();
         parameters.put(Fields.COUNT, CHATS_LIMIT);
-        parameters.put(Fields.PREVIEW_LENGTH, 20);
+        parameters.put(Fields.PREVIEW_LENGTH, 100);
         return parameters;
     }
 

@@ -2,13 +2,12 @@ package makarov.vk.vkgroupchats.presentation.adapters;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-
-import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -52,7 +51,7 @@ public class ChatsAdapter extends RecyclerListAdapter<ChatsAdapter.ViewHolder, C
 
         holder.chatName.setText(chat.getTitle());
         holder.date.setText(DateUtils.chatLastMessage(chat.getDate()));
-        holder.body.setText(chat.getTitle());
+        holder.body.setText(getBody(chat));
 
         holder.itemView.setTag(chat);
         holder.itemView.setOnClickListener(mOnClickListener);
@@ -70,5 +69,14 @@ public class ChatsAdapter extends RecyclerListAdapter<ChatsAdapter.ViewHolder, C
             super(itemLayoutView);
             ButterKnife.bind(this, itemLayoutView);
         }
+    }
+
+    private String getBody(Chat chat) {
+        String body = chat.getBody();
+        if (!TextUtils.isEmpty(body)) {
+            return body;
+        }
+
+        return getContext().getString(R.string.chat_with_attachments);
     }
 }

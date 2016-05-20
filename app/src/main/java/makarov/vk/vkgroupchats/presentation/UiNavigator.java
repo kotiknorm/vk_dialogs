@@ -22,6 +22,8 @@ import makarov.vk.vkgroupchats.vk.VkManager;
 
 public class UiNavigator {
 
+    private static final String STACK_NAME = "vk_navigator";
+
     private final AppCompatActivity mActivity;
     private final VkManager mVkManager;
 
@@ -53,7 +55,7 @@ public class UiNavigator {
 
     public ChatsListView showChatsList() {
         ChatsListFragment fragment = new ChatsListFragment();
-        addView(fragment, true);
+        addView(fragment, true, false);
         return fragment;
     }
 
@@ -64,11 +66,11 @@ public class UiNavigator {
         bundle.putInt(ChatFragment.CHAT_ID_EXTRA, chat.getChatId());
 
         fragment.setArguments(bundle);
-        addView(fragment, false);
+        addView(fragment, false, true);
         return fragment;
     }
 
-    private void addView(Fragment fragment, boolean withReplace) {
+    private void addView(Fragment fragment, boolean withReplace, boolean saveToBackStack) {
         FragmentTransaction transaction = mActivity.getSupportFragmentManager().beginTransaction();
         if (withReplace) {
             transaction.replace(R.id.parent_container, fragment);
@@ -76,7 +78,10 @@ public class UiNavigator {
             transaction.add(R.id.parent_container, fragment);
         }
 
-        transaction.addToBackStack("stack");
+        if (saveToBackStack) {
+            transaction.addToBackStack(STACK_NAME);
+        }
+
         transaction.commitAllowingStateLoss();
     }
 }
