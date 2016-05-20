@@ -9,6 +9,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import java.util.List;
 
@@ -16,6 +17,7 @@ import javax.inject.Inject;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import makarov.vk.vkgroupchats.R;
 import makarov.vk.vkgroupchats.data.models.Chat;
 import makarov.vk.vkgroupchats.ioc.chats.ChatsComponent;
@@ -30,6 +32,7 @@ public class ChatsListFragment extends MvpFragment<ChatsListPresenter, ChatsComp
 
     @Bind(R.id.chats_list) RecyclerView mChatsList;
     @Bind(R.id.toolbar) Toolbar mToolbar;
+    @Bind(R.id.logout) Button mLogoutBtn;
     @Bind(R.id.refresh_layout) SwipeRefreshLayout mRefreshLayout;
 
     SwipeRefreshLayout.OnRefreshListener monRefreshListener = new SwipeRefreshLayout.OnRefreshListener() {
@@ -52,6 +55,11 @@ public class ChatsListFragment extends MvpFragment<ChatsListPresenter, ChatsComp
         mChatsList.setLayoutManager(linearLayoutManager);
 
         return view;
+    }
+
+    @OnClick(R.id.logout)
+    void onClickLogout() {
+        mChatsListPresenter.logout();
     }
 
     @Override

@@ -3,6 +3,7 @@
     <string name="app_name">Dialogs</string>
     <string name="chat_with_attachments">[Attachments]</string>
     <string name="login">Login</string>
+    <string name="logout">Logout</string>
 
     <plurals name="members">
         <item quantity="zero">Empty dialog</item>

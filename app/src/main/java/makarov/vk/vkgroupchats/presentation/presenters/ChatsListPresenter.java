@@ -83,6 +83,10 @@ public class ChatsListPresenter extends BasePresenter<ChatsListView> {
         mUiNavigator.showChat(chat);
     }
 
+    public void logout() {
+        mUiNavigator.logout();
+    }
+
     @Override
     public void onViewCreated() {
         super.onViewCreated();

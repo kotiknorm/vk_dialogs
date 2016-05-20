@@ -77,6 +77,11 @@ public class UiNavigator {
         mVkManager.login(mActivity);
     }
 
+    public void logout() {
+        mVkManager.logout();
+        showLogin();
+    }
+
     public LoginView showLogin() {
         LoginFragment fragment = new LoginFragment();
         addView(fragment, true, false);

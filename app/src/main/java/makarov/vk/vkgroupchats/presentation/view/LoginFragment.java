@@ -28,7 +28,7 @@ public class LoginFragment extends MvpFragment<LoginPresenter, ChatsComponent>
     @Bind(R.id.login_btn) Button mLoginButton;
 
     @OnClick(R.id.login_btn)
-    public void onClick() {
+    void onClick() {
         mLoginPresenter.login();
     }
 
