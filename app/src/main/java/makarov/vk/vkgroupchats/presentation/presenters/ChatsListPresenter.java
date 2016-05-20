@@ -2,6 +2,7 @@ package makarov.vk.vkgroupchats.presentation.presenters;
 
 import android.support.annotation.Nullable;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -34,7 +35,14 @@ public class ChatsListPresenter extends BasePresenter<ChatsListView> {
             }
 
             mChats = result;
-            mVkManager.executeRequest(mUsersLoader, mVkRequestsFactor.getUsers(getIdsChats(result)));
+            List<Integer> chatsWithoutLoadedUsers = getIdsChats(result);
+            if (!chatsWithoutLoadedUsers.isEmpty()) {
+
+                mVkManager.executeRequest(mUsersLoader,
+                        mVkRequestsFactor.getUsers(chatsWithoutLoadedUsers));
+            } else {
+                getView().showChats(mChats);
+            }
 
         }
     };
@@ -49,18 +57,6 @@ public class ChatsListPresenter extends BasePresenter<ChatsListView> {
             if (mChats == null || result == null) {
                 return;
             }
-
-            mStorage.transaction(new Runnable() {
-                @Override
-                public void run() {
-                    for (Chat chat : mChats) {
-                        List<User> users = result.get(chat.getChatId());
-                        if (users != null) {
-                            chat.setUsers(users);
-                        }
-                    }
-                }
-            });
 
             getView().showChats(mChats);
 
@@ -92,10 +88,11 @@ public class ChatsListPresenter extends BasePresenter<ChatsListView> {
         mVkManager.cancel(mChatsLoader);
     }
 
-    private static int[] getIdsChats(List<Chat> chats) {
-        int[] ids = new int[chats.size()];
+    private static List<Integer> getIdsChats(List<Chat> chats) {
+        List<Integer> ids = new ArrayList<>();
         for (int i  = 0; i < chats.size(); i++) {
-            ids[i] = chats.get(i).getChatId();
+            if (!chats.get(i).hasUsers())
+                ids.add(chats.get(i).getChatId());
         }
 
         return ids;

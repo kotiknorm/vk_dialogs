@@ -35,8 +35,8 @@ public class ChatsVkRequest extends VkRequest<List<Chat>> {
         ChatsQuery chatsQuery = new ChatsQuery(mStorage);
         List<Chat> chats = chatsQuery.find();
         if (chats.size() >= COUNT_CHATS) {
-//            loader.onLoaded(chats, null);
-//            return;
+            loader.onLoaded(chats, null);
+            return;
         }
 
         loadChats(loader, COUNT_CHATS, 0);

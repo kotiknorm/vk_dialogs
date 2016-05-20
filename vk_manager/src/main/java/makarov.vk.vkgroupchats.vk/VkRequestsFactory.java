@@ -2,6 +2,8 @@ package makarov.vk.vkgroupchats.vk;
 
 import android.support.annotation.VisibleForTesting;
 
+import java.util.List;
+
 import makarov.vk.vkgroupchats.data.Storage;
 import makarov.vk.vkgroupchats.vk.parsers.ChatJsonParser;
 import makarov.vk.vkgroupchats.vk.parsers.MessageJsonParser;
@@ -35,7 +37,7 @@ public class VkRequestsFactory {
         return new ChatsVkRequest(mStorage, mChatJsonParser);
     }
 
-    public VkRequest getUsers(int[] ids) {
+    public VkRequest getUsers(List<Integer> ids) {
         return new UsersVkRequest(mStorage, mUsersJsonParser, ids);
     }
 

@@ -16,7 +16,9 @@ import java.util.List;
 import java.util.Map;
 
 import makarov.vk.vkgroupchats.data.Storage;
+import makarov.vk.vkgroupchats.data.models.Chat;
 import makarov.vk.vkgroupchats.data.models.User;
+import makarov.vk.vkgroupchats.data.query.ChatsQuery;
 import makarov.vk.vkgroupchats.vk.common.Loader;
 import makarov.vk.vkgroupchats.vk.parsers.UsersJsonParser;
 
@@ -26,12 +28,12 @@ public class UsersVkRequest extends PaginationVkRequest<Map<Integer, List<User>>
 
     private final UsersJsonParser mParser;
     private final Storage mStorage;
-    private final int[] mChatIds;
+    private final List<Integer> mChatIds;
 
     @Nullable
     VKRequest mRequest;
 
-    public UsersVkRequest(Storage storage, UsersJsonParser parser, int[] chatIds) {
+    public UsersVkRequest(Storage storage, UsersJsonParser parser, List<Integer> chatIds) {
         mStorage = storage;
         mParser = parser;
         mChatIds = chatIds;
@@ -67,7 +69,22 @@ public class UsersVkRequest extends PaginationVkRequest<Map<Integer, List<User>>
                 super.onComplete(response);
 
                 try {
-                    VkUsersResponse vkMessagesResponse = mParser.to(response.json);
+                    final VkUsersResponse vkMessagesResponse = mParser.to(response.json);
+
+                    ChatsQuery chatsQuery = new ChatsQuery(mStorage);
+                    final List<Chat> chats = chatsQuery.find();
+                    mStorage.transaction(new Runnable() {
+                        @Override
+                        public void run() {
+                            for (Chat chat : chats) {
+                                List<User> users = vkMessagesResponse.mUsers.get(chat.getChatId());
+                                if (users != null) {
+                                    chat.setUsers(users);
+                                }
+                            }
+                        }
+                    });
+
                     loader.onLoaded(vkMessagesResponse.mUsers, null);
                 } catch (Exception e) {
                     loader.onLoaded(null, e);
@@ -89,10 +106,10 @@ public class UsersVkRequest extends PaginationVkRequest<Map<Integer, List<User>>
         }
     }
 
-    private String getStringIds(int[] ids) {
+    private String getStringIds(List<Integer> ids) {
         StringBuilder builder = new StringBuilder("");
-        for (int i = 0; i < ids.length; i++) {
-            builder.append(String.valueOf(ids[i]) + ", ");
+        for (int i = 0; i < ids.size(); i++) {
+            builder.append(String.valueOf(ids.get(i)) + ", ");
         }
         return builder.substring(0, builder.length() - 2);
     }

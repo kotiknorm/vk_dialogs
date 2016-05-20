@@ -86,4 +86,8 @@ public class Chat extends RealmObject {
         return realmList;
     }
 
+    public boolean hasUsers() {
+        return mUsers != null && mUsers.size() > 0;
+    }
+
 }
