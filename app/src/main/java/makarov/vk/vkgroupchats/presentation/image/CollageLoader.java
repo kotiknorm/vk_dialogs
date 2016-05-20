@@ -2,8 +2,9 @@ package makarov.vk.vkgroupchats.presentation.image;
 
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.os.AsyncTask;
+import android.support.annotation.Nullable;
 import android.widget.ImageView;
 
 import com.squareup.picasso.Picasso;
@@ -12,8 +13,8 @@ import com.squareup.picasso.Target;
 import java.util.ArrayList;
 import java.util.List;
 
-import makarov.vk.vkgroupchats.R;
 import makarov.vk.vkgroupchats.utils.BitmapUtils;
+import makarov.vk.vkgroupchats.utils.ThreadUtils;
 
 public class CollageLoader {
 
@@ -24,6 +25,8 @@ public class CollageLoader {
     private final List<Bitmap> mBitmaps;
     private int mLoadedBitmaps = 0;
     private boolean mCanceled = false;
+
+    @Nullable private CollageAsyncTask mCollageAsyncTask;
 
     private final Target mLoadtarget = new Target() {
         @Override
@@ -57,7 +60,9 @@ public class CollageLoader {
     }
 
     public void execute() {
-        Picasso.with(mContext).load(mUrls.get(mLoadedBitmaps - 1)).into(mLoadtarget);
+        if (mLoadedBitmaps > 0) {
+            Picasso.with(mContext).load(mUrls.get(mLoadedBitmaps - 1)).into(mLoadtarget);
+        }
     }
 
     private void handleLoadedBitmap() {
@@ -66,7 +71,8 @@ public class CollageLoader {
         }
 
         if (mLoadedBitmaps == 0) {
-            setCollage(mBitmaps);
+            mCollageAsyncTask = new CollageAsyncTask(mBitmaps, mImageView);
+            mCollageAsyncTask.executeOnExecutor(ThreadUtils.APP_EXECUTOR);
         } else {
             Picasso.with(mContext).load(mUrls.get(mLoadedBitmaps - 1)).into(mLoadtarget);
         }
@@ -76,45 +82,66 @@ public class CollageLoader {
         mBitmaps.clear();
         mLoadedBitmaps = 0;
         mCanceled = true;
+
+        if (mCollageAsyncTask != null)
+            mCollageAsyncTask.cancel(true);
     }
 
-    private void setCollage(List<Bitmap> bitmaps) {
-        Bitmap result = null;
+    private static class CollageAsyncTask extends AsyncTask<Void, Void, Bitmap> {
 
-        switch (mBitmaps.size()) {
-            case 0:
-                break;
-            case 1:
-                result = mBitmaps.get(0);
-                break;
-            case 2:
-                result = BitmapUtils.joinBitmapsHorizontally(mBitmaps.get(0), mBitmaps.get(1));
-                break;
-            case 3:
-                Bitmap horizontally = BitmapUtils.joinBitmapsVertically(mBitmaps.get(0), mBitmaps.get(1));
+        private List<Bitmap> mBitmaps;
+        private ImageView mImageView;
 
-                Bitmap resizedBitmap = Bitmap.createScaledBitmap(mBitmaps.get(2),
-                        horizontally.getHeight(), horizontally.getHeight(), false);
-                resizedBitmap = BitmapUtils.getVkAvatarBitmap(resizedBitmap);
-
-                result = BitmapUtils.joinBitmapsHorizontally(resizedBitmap, horizontally);
-                break;
-            case 4:
-                Bitmap horizontallyFirst = BitmapUtils.joinBitmapsHorizontally(mBitmaps.get(0), mBitmaps.get(1));
-                Bitmap horizontallySecond = BitmapUtils.joinBitmapsHorizontally(mBitmaps.get(2), mBitmaps.get(3));
-                result = BitmapUtils.joinBitmapsVertically(horizontallyFirst, horizontallySecond);
-                break;
+        CollageAsyncTask(List<Bitmap> bitmaps, ImageView imageView) {
+            mBitmaps = bitmaps;
+            mImageView = imageView;
         }
 
-        if (result != null) {
-            mImageView.setImageBitmap(result);
+
+        @Override
+        protected Bitmap doInBackground(Void[] objects) {
+            return createCollage();
         }
 
-        recycle();
-    }
+        @Override
+        protected void onPostExecute(Bitmap result) {
+            super.onPostExecute(result);
+            mBitmaps.clear();
+            if (result != null) {
+                mImageView.setImageBitmap(result);
+            }
+        }
 
-    private void recycle() {
-        mBitmaps.clear();
+        private Bitmap createCollage() {
+            Bitmap result = null;
+
+            switch (mBitmaps.size()) {
+                case 0:
+                    break;
+                case 1:
+                    result = mBitmaps.get(0);
+                    break;
+                case 2:
+                    result = BitmapUtils.joinBitmapsHorizontally(mBitmaps.get(0), mBitmaps.get(1));
+                    break;
+                case 3:
+                    Bitmap horizontally = BitmapUtils.joinBitmapsVertically(mBitmaps.get(0), mBitmaps.get(1));
+
+                    Bitmap resizedBitmap = Bitmap.createScaledBitmap(mBitmaps.get(2),
+                            horizontally.getHeight(), horizontally.getHeight(), false);
+                    resizedBitmap = BitmapUtils.getVkAvatarBitmap(resizedBitmap);
+
+                    result = BitmapUtils.joinBitmapsHorizontally(resizedBitmap, horizontally);
+                    break;
+                case 4:
+                    Bitmap horizontallyFirst = BitmapUtils.joinBitmapsHorizontally(mBitmaps.get(0), mBitmaps.get(1));
+                    Bitmap horizontallySecond = BitmapUtils.joinBitmapsHorizontally(mBitmaps.get(2), mBitmaps.get(3));
+                    result = BitmapUtils.joinBitmapsVertically(horizontallyFirst, horizontallySecond);
+                    break;
+            }
+
+            return result;
+        }
     }
 
 }

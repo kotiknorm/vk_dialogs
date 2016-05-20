@@ -10,6 +10,7 @@ import makarov.vk.vkgroupchats.data.Storage;
 import makarov.vk.vkgroupchats.presentation.BackPressedDispatcher;
 import makarov.vk.vkgroupchats.presentation.UiNavigator;
 import makarov.vk.vkgroupchats.presentation.presenters.ChatsListPresenter;
+import makarov.vk.vkgroupchats.presentation.presenters.LoginPresenter;
 import makarov.vk.vkgroupchats.presentation.presenters.PresenterFactory;
 import makarov.vk.vkgroupchats.vk.VkManager;
 import makarov.vk.vkgroupchats.vk.VkRequestsFactory;
@@ -31,8 +32,8 @@ public class ChatsModule {
 
     @Provides
     @Singleton
-    UiNavigator provideUiNavigator(VkManager vkManager) {
-        return new UiNavigator(mActivity, vkManager);
+    UiNavigator provideUiNavigator(VkManager vkManager, Storage storage) {
+        return new UiNavigator(mActivity, vkManager, storage);
     }
 
     @Provides
@@ -51,6 +52,11 @@ public class ChatsModule {
     ChatsListPresenter provideChatsListPresenter(VkManager vkManager, VkRequestsFactory factory,
                                                  UiNavigator uiNavigator, Storage storage) {
         return new ChatsListPresenter(vkManager, factory, uiNavigator, storage);
+    }
+
+    @Provides
+    LoginPresenter provideLoginPresenter(VkManager vkManager, UiNavigator uiNavigator, Storage storage) {
+        return new LoginPresenter(vkManager, uiNavigator, storage);
     }
 
 }

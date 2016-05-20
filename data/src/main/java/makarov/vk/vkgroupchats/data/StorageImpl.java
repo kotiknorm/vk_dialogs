@@ -60,6 +60,14 @@ public class StorageImpl implements Storage<RealmObject, RealmBaseQuery> {
         realm.commitTransaction();
     }
 
+    @Override
+    public void discard() {
+        Realm realm = getRealm();
+        realm.beginTransaction();
+        realm.deleteAll();
+        realm.commitTransaction();
+    }
+
     private Realm getRealm() {
         initIfNeeded(mContext);
         return Realm.getDefaultInstance();

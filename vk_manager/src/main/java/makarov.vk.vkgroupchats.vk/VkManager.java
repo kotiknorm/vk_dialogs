@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 
 import com.vk.sdk.VKAccessToken;
-import com.vk.sdk.VKAccessTokenTracker;
 import com.vk.sdk.VKCallback;
 import com.vk.sdk.VKScope;
 import com.vk.sdk.VKSdk;
@@ -13,6 +12,8 @@ import com.vk.sdk.VKSdk;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+
+import javax.inject.Inject;
 
 import makarov.vk.vkgroupchats.vk.common.Loader;
 
@@ -29,21 +30,17 @@ public class VkManager {
             VKScope.DOCS
     };
 
+
+
     private final List<RequestEntry> mRunningRequests = new ArrayList<>();
 
-    private final VKAccessTokenTracker mVkAccessTokenTracker = new VKAccessTokenTracker() {
-        @Override
-        public void onVKAccessTokenChanged(VKAccessToken oldToken, VKAccessToken newToken) {
-            if (newToken == null) {
 
-            }
-        }
-    };
+    @Inject
+    public VkManager() {
 
-    public VkManager(Context context) {
-        mVkAccessTokenTracker.startTracking();
     }
 
+    @Inject
     public static void init(Context context) {
         VKSdk.customInitialize(context,
                 context.getResources().getInteger(R.integer.com_vk_sdk_AppId), API_VERSION);
@@ -70,6 +67,15 @@ public class VkManager {
 
         VKSdk.login(activity, SCOPE);
         return false;
+    }
+
+    public boolean logout() {
+        VKSdk.logout();
+        return true;
+    }
+
+    public boolean isLoggedIn() {
+        return VKSdk.isLoggedIn();
     }
 
     public void onActivityResult(int requestCode, int resultCode, Intent data,

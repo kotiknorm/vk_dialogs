@@ -36,7 +36,7 @@ public class AppModule {
     @Provides
     @Singleton
     VkManager provideVkManager() {
-        return new VkManager(mApplication);
+        return new VkManager();
     }
 
     @Provides

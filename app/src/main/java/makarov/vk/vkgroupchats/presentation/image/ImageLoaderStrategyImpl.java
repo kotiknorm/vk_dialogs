@@ -46,7 +46,6 @@ public class ImageLoaderStrategyImpl implements ImageLoaderStrategy {
         CollageLoader loader = new CollageLoader(urls, imageView, mContext);
         loader.execute();
         imageView.setTag(R.id.collage_tag, loader);
-
     }
 
     private void cancelLoaderIfNeeded(ImageView imageView) {

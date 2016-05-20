@@ -12,4 +12,6 @@ public interface Storage<ModelType, QueryType> {
 
     void transaction(Runnable runnable);
 
+    void discard();
+
 }

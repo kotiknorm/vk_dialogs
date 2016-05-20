@@ -34,7 +34,7 @@ public class ChatsListPresenter extends BasePresenter<ChatsListView> {
                 return;
             }
 
-            if (e != null) {
+            if (e != null || result == null) {
                 getView().showError();
                 return;
             }

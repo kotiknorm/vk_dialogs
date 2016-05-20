@@ -2,6 +2,7 @@
 
     <string name="app_name">Список Бесед</string>
     <string name="chat_with_attachments">[Приложения]</string>
+    <string name="login">Вход</string>
 
     <plurals name="members">
         <item quantity="zero">Нет участников</item>

@@ -7,17 +7,21 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 
 import com.vk.sdk.VKAccessToken;
+import com.vk.sdk.VKAccessTokenTracker;
 import com.vk.sdk.VKCallback;
 import com.vk.sdk.api.VKError;
 
 import javax.inject.Inject;
 
 import makarov.vk.vkgroupchats.R;
+import makarov.vk.vkgroupchats.data.Storage;
 import makarov.vk.vkgroupchats.data.models.Chat;
 import makarov.vk.vkgroupchats.presentation.view.ChatFragment;
 import makarov.vk.vkgroupchats.presentation.view.ChatView;
 import makarov.vk.vkgroupchats.presentation.view.ChatsListFragment;
 import makarov.vk.vkgroupchats.presentation.view.ChatsListView;
+import makarov.vk.vkgroupchats.presentation.view.LoginFragment;
+import makarov.vk.vkgroupchats.presentation.view.LoginView;
 import makarov.vk.vkgroupchats.vk.VkManager;
 
 public class UiNavigator {
@@ -26,11 +30,25 @@ public class UiNavigator {
 
     private final AppCompatActivity mActivity;
     private final VkManager mVkManager;
+    private final Storage mStorage;
+
+    private final VKAccessTokenTracker mVkAccessTokenTracker = new VKAccessTokenTracker() {
+        @Override
+        public void onVKAccessTokenChanged(VKAccessToken oldToken, VKAccessToken newToken) {
+            mStorage.discard();
+            if (newToken == null) {
+                showLogin();
+            }
+        }
+    };
 
     @Inject
-    public UiNavigator(AppCompatActivity activity, VkManager vkManager) {
+    public UiNavigator(AppCompatActivity activity, VkManager vkManager, Storage storage) {
         mActivity = activity;
         mVkManager = vkManager;
+        mStorage = storage;
+
+        mVkAccessTokenTracker.startTracking();
     }
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -48,9 +66,21 @@ public class UiNavigator {
     }
 
     public void onStart() {
-        if (mVkManager.login(mActivity)) {
+        if (mVkManager.isLoggedIn()) {
             showChatsList();
+        } else {
+            showLogin();
         }
+    }
+
+    public void login() {
+        mVkManager.login(mActivity);
+    }
+
+    public LoginView showLogin() {
+        LoginFragment fragment = new LoginFragment();
+        addView(fragment, true, false);
+        return fragment;
     }
 
     public ChatsListView showChatsList() {
