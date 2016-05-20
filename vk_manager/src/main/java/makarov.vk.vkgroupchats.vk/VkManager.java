@@ -55,13 +55,12 @@ public class VkManager {
 
     public <T>void executeRequest(final Loader<T> loader, VkRequest<T> request) {
         mRunningRequests.add(new RequestEntry(loader, request));
-        request.execute(new Loader<T>() {
-            @Override
-            public void onLoaded(T result, Exception e) {
-                loader.onLoaded(result, e);
-                cancel(loader);
-            }
-        });
+        request.execute(new ResultHandler<>(loader));
+    }
+
+    public <T>void forceExecuteRequest(final Loader<T> loader, VkRequest<T> request) {
+        mRunningRequests.add(new RequestEntry(loader, request));
+        request.forceExecute(new ResultHandler<>(loader));
     }
 
     public boolean login(Activity activity) {
@@ -97,6 +96,21 @@ public class VkManager {
         RequestEntry(Loader loader, VkRequest request) {
             mLoader = loader;
             mRequest = request;
+        }
+    }
+
+    private class ResultHandler<T> implements Loader<T> {
+
+        private final Loader<T> mLoader;
+
+        ResultHandler(Loader<T> loader) {
+            mLoader = loader;
+        }
+
+        @Override
+        public void onLoaded(T result, Exception e) {
+            mLoader.onLoaded(result, e);
+            cancel(mLoader);
         }
     }
 

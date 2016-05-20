@@ -9,4 +9,6 @@ import makarov.vk.vkgroupchats.presentation.presenters.ChatsListPresenter;
 public interface ChatsListView extends View<ChatsListPresenter> {
 
     void showChats(List<Chat> list);
+
+    void showError();
 }

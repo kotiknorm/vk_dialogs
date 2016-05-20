@@ -33,12 +33,17 @@ public class ChatsVkRequest extends VkRequest<List<Chat>> {
 
     public void execute(final Loader<List<Chat>> loader) {
         ChatsQuery chatsQuery = new ChatsQuery(mStorage);
-        List<Chat> chats = chatsQuery.find();
+        List<Chat> chats = chatsQuery.findWithSort("date");
         if (chats.size() >= COUNT_CHATS) {
             loader.onLoaded(chats, null);
             return;
         }
 
+        loadChats(loader, COUNT_CHATS, 0);
+    }
+
+    @Override
+    public void forceExecute(Loader<List<Chat>> loader) {
         loadChats(loader, COUNT_CHATS, 0);
     }
 
@@ -74,7 +79,7 @@ public class ChatsVkRequest extends VkRequest<List<Chat>> {
 
                     if (chats.size() >= countChats || CHATS_LIMIT * page >= fullCount) {
                         ChatsQuery chatsQuery = new ChatsQuery(mStorage);
-                        loader.onLoaded(chatsQuery.find(), null);
+                        loader.onLoaded(chatsQuery.findWithSort("date"), null);
                         return;
                     }
 

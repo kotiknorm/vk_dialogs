@@ -20,6 +20,10 @@ public abstract class VkRequest<T> {
 
     public abstract void execute(Loader<T> loader);
 
+    public void forceExecute(Loader<T> loader) {
+        execute(loader);
+    }
+
     abstract VKParameters getParameters();
 
     public abstract void cancel();

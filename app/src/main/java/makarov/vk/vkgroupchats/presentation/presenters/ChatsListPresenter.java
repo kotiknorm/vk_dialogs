@@ -30,7 +30,12 @@ public class ChatsListPresenter extends BasePresenter<ChatsListView> {
     private final Loader<List<Chat>> mChatsLoader = new Loader<List<Chat>>() {
         @Override
         public void onLoaded(List<Chat> result, Exception e) {
-            if (e != null || !isAttachedToView()) {
+            if (!isAttachedToView()) {
+                return;
+            }
+
+            if (e != null) {
+                getView().showError();
                 return;
             }
 
@@ -50,11 +55,12 @@ public class ChatsListPresenter extends BasePresenter<ChatsListView> {
     private final Loader<Map<Integer, List<User>>> mUsersLoader = new Loader<Map<Integer, List<User>>>() {
         @Override
         public void onLoaded(final Map<Integer, List<User>> result, Exception e) {
-            if (e != null || !isAttachedToView()) {
+            if (!isAttachedToView()) {
                 return;
             }
 
-            if (mChats == null || result == null) {
+            if (e != null || mChats == null || result == null) {
+                getView().showError();
                 return;
             }
 
@@ -62,6 +68,10 @@ public class ChatsListPresenter extends BasePresenter<ChatsListView> {
 
         }
     };
+
+    public void updateChatsList() {
+        mVkManager.forceExecuteRequest(mChatsLoader, mVkRequestsFactor.getChats());
+    }
 
     @Inject
     public ChatsListPresenter(VkManager vkManager, VkRequestsFactory vkRequestsFactory,

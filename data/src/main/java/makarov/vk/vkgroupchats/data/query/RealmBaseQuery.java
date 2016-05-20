@@ -4,6 +4,7 @@ import java.util.List;
 
 import io.realm.RealmObject;
 import io.realm.RealmQuery;
+import io.realm.Sort;
 import makarov.vk.vkgroupchats.data.Storage;
 
 public abstract class RealmBaseQuery<T extends RealmObject> {
@@ -26,6 +27,10 @@ public abstract class RealmBaseQuery<T extends RealmObject> {
 
     public List<T> find() {
         return mRealmQuery.findAll();
+    }
+
+    public List<T> findWithSort(String fieldName) {
+        return mRealmQuery.findAll().sort(fieldName, Sort.DESCENDING);
     }
 
     public Class getModelType() {

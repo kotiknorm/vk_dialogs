@@ -1,6 +1,7 @@
 package makarov.vk.vkgroupchats.presentation.view;
 
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -29,12 +30,21 @@ public class ChatsListFragment extends MvpFragment<ChatsListPresenter, ChatsComp
 
     @Bind(R.id.chats_list) RecyclerView mChatsList;
     @Bind(R.id.toolbar) Toolbar mToolbar;
+    @Bind(R.id.refresh_layout) SwipeRefreshLayout mRefreshLayout;
+
+    SwipeRefreshLayout.OnRefreshListener monRefreshListener = new SwipeRefreshLayout.OnRefreshListener() {
+        @Override
+        public void onRefresh() {
+            getPresenter().updateChatsList();
+        }
+    };
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.chats_list, container, false);
         ButterKnife.bind(this, view);
 
+        mRefreshLayout.setOnRefreshListener(monRefreshListener);
         ((AppCompatActivity) getActivity()).setSupportActionBar(mToolbar);
         mToolbar.setTitle(R.string.app_name);
 
@@ -52,8 +62,14 @@ public class ChatsListFragment extends MvpFragment<ChatsListPresenter, ChatsComp
 
     @Override
     public void showChats(List<Chat> list) {
+        mRefreshLayout.setRefreshing(false);
         ChatsAdapter adapter = new ChatsAdapter(getContext(), list, mChatsListPresenter);
         mChatsList.setAdapter(adapter);
     }
-    
+
+    @Override
+    public void showError() {
+        mRefreshLayout.setRefreshing(false);
+    }
+
 }
