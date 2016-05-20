@@ -48,7 +48,7 @@ public class BitmapUtils {
         return cs;
     }
 
-    public  static Bitmap getVkAvatarBitmap(Bitmap source) {
+    public static Bitmap getVkAvatarBitmap(Bitmap source) {
         Bitmap result = Bitmap.createBitmap(source, 0, 0, source.getWidth() / 2, source.getHeight());
         return result;
     }

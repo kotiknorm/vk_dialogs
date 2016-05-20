@@ -8,7 +8,6 @@ import java.util.Map;
 
 import javax.inject.Inject;
 
-import makarov.vk.vkgroupchats.data.Storage;
 import makarov.vk.vkgroupchats.data.models.Chat;
 import makarov.vk.vkgroupchats.data.models.User;
 import makarov.vk.vkgroupchats.mvp.BasePresenter;
@@ -23,7 +22,6 @@ public class ChatsListPresenter extends BasePresenter<ChatsListView> {
     private final VkManager mVkManager;
     private final VkRequestsFactory mVkRequestsFactor;
     private final UiNavigator mUiNavigator;
-    private final Storage mStorage;
 
     @Nullable private List<Chat> mChats;
 
@@ -75,11 +73,10 @@ public class ChatsListPresenter extends BasePresenter<ChatsListView> {
 
     @Inject
     public ChatsListPresenter(VkManager vkManager, VkRequestsFactory vkRequestsFactory,
-                              UiNavigator uiNavigator, Storage storage) {
+                              UiNavigator uiNavigator) {
         mVkManager = vkManager;
         mVkRequestsFactor = vkRequestsFactory;
         mUiNavigator = uiNavigator;
-        mStorage = storage;
     }
 
     public void onClickChat(Chat chat) {
@@ -96,6 +93,7 @@ public class ChatsListPresenter extends BasePresenter<ChatsListView> {
     public void onStop() {
         super.onStop();
         mVkManager.cancel(mChatsLoader);
+        mVkManager.cancel(mUsersLoader);
     }
 
     private static List<Integer> getIdsChats(List<Chat> chats) {

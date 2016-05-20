@@ -44,19 +44,19 @@ public class ChatsModule {
 
     @Provides
     PresenterFactory provideChatPresenter(VkManager vkManager, VkRequestsFactory vkRequestsFactory,
-                                          UiNavigator uiNavigator, Storage storage) {
-        return new PresenterFactory(vkManager, vkRequestsFactory, uiNavigator, storage);
+                                          Storage storage) {
+        return new PresenterFactory(vkManager, vkRequestsFactory, storage);
     }
 
     @Provides
     ChatsListPresenter provideChatsListPresenter(VkManager vkManager, VkRequestsFactory factory,
-                                                 UiNavigator uiNavigator, Storage storage) {
-        return new ChatsListPresenter(vkManager, factory, uiNavigator, storage);
+                                                 UiNavigator uiNavigator) {
+        return new ChatsListPresenter(vkManager, factory, uiNavigator);
     }
 
     @Provides
-    LoginPresenter provideLoginPresenter(VkManager vkManager, UiNavigator uiNavigator, Storage storage) {
-        return new LoginPresenter(vkManager, uiNavigator, storage);
+    LoginPresenter provideLoginPresenter(UiNavigator uiNavigator) {
+        return new LoginPresenter(uiNavigator);
     }
 
 }

@@ -13,6 +13,7 @@ import javax.inject.Inject;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
+import butterknife.OnClick;
 import makarov.vk.vkgroupchats.R;
 import makarov.vk.vkgroupchats.ioc.chats.ChatsComponent;
 import makarov.vk.vkgroupchats.mvp.MvpFragment;
@@ -26,18 +27,16 @@ public class LoginFragment extends MvpFragment<LoginPresenter, ChatsComponent>
     @Bind(R.id.toolbar) Toolbar mToolbar;
     @Bind(R.id.login_btn) Button mLoginButton;
 
+    @OnClick(R.id.login_btn)
+    public void onClick() {
+        mLoginPresenter.login();
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.login_fragment, container, false);
         ButterKnife.bind(this, view);
         prepareToolbar();
-
-        mLoginButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                mLoginPresenter.login();
-            }
-        });
 
         return view;
     }

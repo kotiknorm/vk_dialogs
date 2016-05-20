@@ -11,7 +11,6 @@ import makarov.vk.vkgroupchats.data.Storage;
 import makarov.vk.vkgroupchats.data.models.Chat;
 import makarov.vk.vkgroupchats.data.query.ChatsQuery;
 import makarov.vk.vkgroupchats.mvp.BasePresenter;
-import makarov.vk.vkgroupchats.presentation.UiNavigator;
 import makarov.vk.vkgroupchats.presentation.view.ChatView;
 import makarov.vk.vkgroupchats.vk.VkManager;
 import makarov.vk.vkgroupchats.vk.VkRequestsFactory;
@@ -20,7 +19,6 @@ public class ChatPresenter extends BasePresenter<ChatView> {
 
     private final VkManager mVkManager;
     private final VkRequestsFactory mVkRequestsFactor;
-    private final UiNavigator mUiNavigator;
     private final Chat mChat;
     private final PaginationVkRequest mRequest;
 
@@ -40,11 +38,10 @@ public class ChatPresenter extends BasePresenter<ChatView> {
 
     @Inject
     public ChatPresenter(VkManager vkManager, VkRequestsFactory vkRequestsFactory,
-                         UiNavigator uiNavigator, Storage storage, int chatId) {
+                         Storage storage, int chatId) {
         mChat = new ChatsQuery(storage).findById(chatId);
         mVkManager = vkManager;
         mVkRequestsFactor = vkRequestsFactory;
-        mUiNavigator = uiNavigator;
 
         mRequest = mVkRequestsFactor.getMessages(mChat.getChatId());
     }

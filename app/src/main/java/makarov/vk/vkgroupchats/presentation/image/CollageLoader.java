@@ -28,7 +28,7 @@ public class CollageLoader {
 
     @Nullable private CollageAsyncTask mCollageAsyncTask;
 
-    private final Target mLoadtarget = new Target() {
+    private final Target mLoadTarget = new Target() {
         @Override
         public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
             mLoadedBitmaps--;
@@ -61,7 +61,7 @@ public class CollageLoader {
 
     public void execute() {
         if (mLoadedBitmaps > 0) {
-            Picasso.with(mContext).load(mUrls.get(mLoadedBitmaps - 1)).into(mLoadtarget);
+            Picasso.with(mContext).load(mUrls.get(mLoadedBitmaps - 1)).into(mLoadTarget);
         }
     }
 
@@ -74,7 +74,7 @@ public class CollageLoader {
             mCollageAsyncTask = new CollageAsyncTask(mBitmaps, mImageView);
             mCollageAsyncTask.executeOnExecutor(ThreadUtils.APP_EXECUTOR);
         } else {
-            Picasso.with(mContext).load(mUrls.get(mLoadedBitmaps - 1)).into(mLoadtarget);
+            Picasso.with(mContext).load(mUrls.get(mLoadedBitmaps - 1)).into(mLoadTarget);
         }
     }
 

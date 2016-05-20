@@ -25,6 +25,8 @@ ext {
   javaxAnnotationVersion = '1.0'
   gsonVersion = '2.6.1'
   picassoVersion = '2.5.2'
+  superListViewVersion = '1.5.2'
+  circleImageViewVersion = '2.0.0'
 
   //Testing
   robolectricVersion = '3.0'
@@ -44,6 +46,8 @@ ext {
           javaxAnnotationVersion:         "javax.annotation:jsr250-api:${javaxAnnotationVersion}",
           gson:                           "com.google.code.gson:gson:${gsonVersion}",
           picasso:                        "com.squareup.picasso:picasso:${picassoVersion}",
+          superListView:                  "com.quentindommerc.superlistview:library:${superListViewVersion}",
+          circleImageView:                "de.hdodenhof:circleimageview:${circleImageViewVersion}",
   ]
 
   mvpDependencies = [

@@ -50,7 +50,6 @@ def forceCompile(library) {
 dependencies {
     def presentationDependencies = rootProject.ext.presentationDependencies
 
-    compile project(':data')
     compile project(':mvp')
     compile project(':vk_manager')
 
@@ -60,13 +59,12 @@ dependencies {
     compile presentationDependencies.butterKnife
     compile presentationDependencies.gson
     compile presentationDependencies.picasso
+    compile presentationDependencies.superListView
+    compile presentationDependencies.circleImageView
 
     forceCompile presentationDependencies.supportV4
     forceCompile presentationDependencies.recyclerView
     forceCompile presentationDependencies.supportDesign
     forceCompile presentationDependencies.supportV13
-
-    compile 'com.quentindommerc.superlistview:library:1.5.2'
-    compile 'de.hdodenhof:circleimageview:2.0.0'
 
 }

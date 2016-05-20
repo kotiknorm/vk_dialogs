@@ -13,6 +13,7 @@ import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+
 import makarov.vk.vkgroupchats.R;
 import makarov.vk.vkgroupchats.data.models.Chat;
 import makarov.vk.vkgroupchats.presentation.image.ImageLoaderStrategy;
