@@ -1,0 +1,16 @@
+<resources>
+
+    <string name="app_name">Список Бесед</string>
+    <string name="chat_with_attachments">[Приложения]</string>
+
+    <plurals name="members">
+        <item quantity="zero">Нет участников</item>
+        <item quantity="one">%1$d участниу</item>
+        <item quantity="two">%1$d участника</item>
+        <item quantity="few">%1$d участника</item>
+        <item quantity="many">%1$d участников</item>
+        <item quantity="other">%1$d участников</item>
+    </plurals>
+
+
+</resources>
