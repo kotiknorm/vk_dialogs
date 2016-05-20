@@ -1,6 +1,7 @@
 package makarov.vk.vkgroupchats.presentation.view;
 
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
@@ -21,6 +22,7 @@ import makarov.vk.vkgroupchats.data.models.Chat;
 import makarov.vk.vkgroupchats.data.models.Message;
 import makarov.vk.vkgroupchats.ioc.chats.ChatsComponent;
 import makarov.vk.vkgroupchats.mvp.MvpFragment;
+import makarov.vk.vkgroupchats.presentation.BackPressedDispatcher;
 import makarov.vk.vkgroupchats.presentation.adapters.MessagesAdapter;
 import makarov.vk.vkgroupchats.presentation.presenters.ChatPresenter;
 import makarov.vk.vkgroupchats.presentation.presenters.PresenterFactory;
@@ -31,6 +33,7 @@ public class ChatFragment extends MvpFragment<ChatPresenter, ChatsComponent>
     public static final String CHAT_ID_EXTRA = "CHAT_ID";
 
     @Inject PresenterFactory mPresenterFactory;
+    @Inject BackPressedDispatcher mBackPressedDispatcher;
 
     @Bind(R.id.chat_list) SuperListview mMessagesList;
     @Bind(R.id.toolbar) Toolbar mToolbar;
@@ -41,11 +44,10 @@ public class ChatFragment extends MvpFragment<ChatPresenter, ChatsComponent>
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.chat, container, false);
         ButterKnife.bind(this, view);
+        prepareToolbar();
 
         mAdapter = new MessagesAdapter(getContext());
         mMessagesList.setAdapter(mAdapter);
-
-        ((AppCompatActivity) getActivity()).setSupportActionBar(mToolbar);
 
         mMessagesList.setupMoreListener(new OnMoreListener() {
             @Override
@@ -85,6 +87,27 @@ public class ChatFragment extends MvpFragment<ChatPresenter, ChatsComponent>
         String subTitle = getResources().getQuantityString(R.plurals.members,
                 countMembers, countMembers);
         mToolbar.setSubtitle(subTitle);
+    }
+
+    private void prepareToolbar() {
+        AppCompatActivity activity = ((AppCompatActivity) getActivity());
+        if (activity == null) {
+            return;
+        }
+
+        activity.setSupportActionBar(mToolbar);
+        mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mBackPressedDispatcher.onBackPressed();
+            }
+        });
+
+        ActionBar actionBar = activity.getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+            actionBar.setDisplayShowHomeEnabled(true);
+        }
     }
 
 }

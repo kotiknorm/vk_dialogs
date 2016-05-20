@@ -7,6 +7,7 @@ import javax.inject.Singleton;
 import dagger.Module;
 import dagger.Provides;
 import makarov.vk.vkgroupchats.data.Storage;
+import makarov.vk.vkgroupchats.presentation.BackPressedDispatcher;
 import makarov.vk.vkgroupchats.presentation.UiNavigator;
 import makarov.vk.vkgroupchats.presentation.presenters.ChatsListPresenter;
 import makarov.vk.vkgroupchats.presentation.presenters.PresenterFactory;
@@ -32,6 +33,12 @@ public class ChatsModule {
     @Singleton
     UiNavigator provideUiNavigator(VkManager vkManager) {
         return new UiNavigator(mActivity, vkManager);
+    }
+
+    @Provides
+    @Singleton
+    BackPressedDispatcher provideBackPressedDispatcher() {
+        return new BackPressedDispatcher(mActivity);
     }
 
     @Provides

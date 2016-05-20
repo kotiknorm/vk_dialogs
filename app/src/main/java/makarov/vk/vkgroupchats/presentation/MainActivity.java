@@ -49,6 +49,7 @@ public class MainActivity extends AppCompatActivity implements ComponentContaine
         mUiNavigator.onStart();
     }
 
+    @Override
     public void onBackPressed() {
         if (!mBackPressedDispatcher.onBackPressed()) {
             super.onBackPressed();
