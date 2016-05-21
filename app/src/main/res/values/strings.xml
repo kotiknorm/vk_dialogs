@@ -4,6 +4,7 @@
     <string name="chat_with_attachments">[Attachments]</string>
     <string name="login">Login</string>
     <string name="logout">Logout</string>
+    <string name="error">Failed request</string>
 
     <plurals name="members">
         <item quantity="zero">Empty dialog</item>

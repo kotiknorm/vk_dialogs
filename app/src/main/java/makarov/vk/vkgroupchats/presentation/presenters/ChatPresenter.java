@@ -24,10 +24,16 @@ public class ChatPresenter extends BasePresenter<ChatView> {
     private final Loader<List<Message>> mLoader = new Loader<List<Message>>() {
         @Override
         public void onLoaded(List<Message> result, Exception e) {
-            getView().hideProgressBar();
-            if (e != null || !isAttachedToView()) {
+            if (!isAttachedToView()) {
                 return;
             }
+
+            getView().hideProgressBar();
+            if (e != null) {
+                getView().showError();
+                return;
+            }
+
             if (result != null) {
                 getView().addMessages(result);
             }

@@ -1,6 +1,8 @@
 package makarov.vk.vkgroupchats.presentation.view;
 
 import android.os.Bundle;
+import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -37,6 +39,7 @@ public class ChatFragment extends MvpFragment<ChatPresenter, ChatsComponent>
 
     @Bind(R.id.chat_list) SuperListview mMessagesList;
     @Bind(R.id.toolbar) Toolbar mToolbar;
+    @Bind(R.id.coordinator) CoordinatorLayout mCoordinatorLayout;
 
     private MessagesAdapter mAdapter;
 
@@ -87,6 +90,11 @@ public class ChatFragment extends MvpFragment<ChatPresenter, ChatsComponent>
         String subTitle = getResources().getQuantityString(R.plurals.members,
                 countMembers, countMembers);
         mToolbar.setSubtitle(subTitle);
+    }
+
+    @Override
+    public void showError() {
+        Snackbar.make(mCoordinatorLayout, R.string.error, Snackbar.LENGTH_LONG).show();
     }
 
     private void prepareToolbar() {

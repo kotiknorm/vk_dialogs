@@ -1,6 +1,8 @@
 package makarov.vk.vkgroupchats.presentation.view;
 
 import android.os.Bundle;
+import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.Snackbar;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -34,6 +36,7 @@ public class ChatsListFragment extends MvpFragment<ChatsListPresenter, ChatsComp
     @Bind(R.id.toolbar) Toolbar mToolbar;
     @Bind(R.id.logout) Button mLogoutBtn;
     @Bind(R.id.refresh_layout) SwipeRefreshLayout mRefreshLayout;
+    @Bind(R.id.coordinator) CoordinatorLayout mCoordinatorLayout;
 
     SwipeRefreshLayout.OnRefreshListener monRefreshListener = new SwipeRefreshLayout.OnRefreshListener() {
         @Override
@@ -77,6 +80,7 @@ public class ChatsListFragment extends MvpFragment<ChatsListPresenter, ChatsComp
 
     @Override
     public void showError() {
+        Snackbar.make(mCoordinatorLayout, R.string.error, Snackbar.LENGTH_LONG).show();
         mRefreshLayout.setRefreshing(false);
     }
 

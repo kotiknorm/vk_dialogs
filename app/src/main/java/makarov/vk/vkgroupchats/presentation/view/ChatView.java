@@ -16,4 +16,6 @@ public interface ChatView extends View<ChatPresenter> {
     void hideProgressBar();
 
     void prepareChat(Chat chat);
+
+    void showError();
 }
