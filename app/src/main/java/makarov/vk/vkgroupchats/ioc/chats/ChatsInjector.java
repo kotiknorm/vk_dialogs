@@ -3,10 +3,11 @@ package makarov.vk.vkgroupchats.ioc.chats;
 import android.support.v7.app.AppCompatActivity;
 
 import makarov.vk.vkgroupchats.data.utils.Assert;
+import makarov.vk.vkgroupchats.ioc.Injector;
 import makarov.vk.vkgroupchats.ioc.app.IocInjector;
 import makarov.vk.vkgroupchats.ioc.chats.modules.ChatsModule;
 
-public class ChatsInjector {
+public class ChatsInjector implements Injector<ChatsComponent> {
 
     private AppCompatActivity mActivity;
     private ChatsComponent mComponent;
@@ -18,7 +19,7 @@ public class ChatsInjector {
     public void buildComponent() {
         Assert.assertNull(mComponent);
 
-        mComponent = IocInjector.get().plusChatsComponent(new ChatsModule(mActivity));
+        mComponent = IocInjector.StaticContext.get().plusChatsComponent(new ChatsModule(mActivity));
     }
 
     public void destroyComponent() {

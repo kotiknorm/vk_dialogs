@@ -11,6 +11,6 @@ public class VkApplication extends Application {
     public void onCreate() {
         super.onCreate();
         VkManager.init(this);
-        IocInjector.buildComponent(this);
+        IocInjector.StaticContext.init(this);
     }
 }
