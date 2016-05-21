@@ -10,8 +10,8 @@
     android:paddingBottom="4dp">
 
     <de.hdodenhof.circleimageview.CircleImageView
-        android:layout_width="42dp"
-        android:layout_height="42dp"
+        android:layout_width="@dimen/message_avatar_size"
+        android:layout_height="@dimen/message_avatar_size"
         android:id="@+id/avatar"
         android:layout_toLeftOf="@+id/message_container" />
 
@@ -32,10 +32,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/body"
-            android:textSize="16sp"
+            android:textSize="@dimen/message_test_size"
             android:paddingLeft="6dp"
             android:paddingRight="6dp"
-            android:text="qweweqeqwewe"
             android:textColor="@android:color/black"
             android:layout_marginBottom="4dp" />
 
@@ -43,7 +42,6 @@
             android:id="@+id/time"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="12:30 PM"
             android:textColor="@color/chat_date_color"
             android:gravity="center_vertical"
             android:layout_marginLeft="6dp"
