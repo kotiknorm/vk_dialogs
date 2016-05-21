@@ -6,7 +6,7 @@
     <color name="colorAccent">#FF4081</color>
 
     <color name="chat_bg">#7da5af</color>
-    <color name="chat_date_color">#080909</color>
+    <color name="chat_date_color">#b3b3b3</color>
 
     <color name="chat_sub_info_text_color">#5e5e5e</color>
 </resources>

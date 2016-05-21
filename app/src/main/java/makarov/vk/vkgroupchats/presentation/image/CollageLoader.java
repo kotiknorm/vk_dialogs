@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.support.annotation.Nullable;
+import android.support.annotation.WorkerThread;
 import android.widget.ImageView;
 
 import com.squareup.picasso.Picasso;
@@ -112,6 +113,7 @@ public class CollageLoader {
             }
         }
 
+        @WorkerThread
         private Bitmap createCollage() {
             Bitmap result = null;
 
