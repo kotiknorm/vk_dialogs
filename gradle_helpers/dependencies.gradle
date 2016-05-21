@@ -12,7 +12,7 @@ def verName = getVersionName()
 ext {
 
   androidBuildToolsVersion = "23.0.1"
-  androidMinSdkVersion = 16
+  androidMinSdkVersion = 14
   androidTargetSdkVersion = 22
   androidCompileSdkVersion = 23
   androidVersionCode = verCode
@@ -28,6 +28,7 @@ ext {
   superListViewVersion = '1.5.2'
   circleImageViewVersion = '2.0.0'
   rxVersion = '1.0.16'
+  vkVersion = '1.6.5'
 
   //Testing
   robolectricVersion = '3.0'
@@ -67,6 +68,12 @@ ext {
           javaxAnnotationVersion:         "javax.annotation:jsr250-api:${javaxAnnotationVersion}",
           androidAnnotations:             "com.android.support:appcompat-v7:${supportVersion}",
           supportV4:                      "com.android.support:support-v4:${supportVersion}0",
+  ]
+
+  vkDependencies = [
+          androidAnnotations:             "com.android.support:appcompat-v7:${supportVersion}",
+          gson:                           "com.google.code.gson:gson:${gsonVersion}",
+          vk_lib:                         "com.vk:androidsdk:${vkVersion}",
   ]
 
 }

@@ -5,8 +5,6 @@ buildscript {
 }
 
 apply plugin: 'com.android.library'
-apply plugin: 'com.neenbedankt.android-apt'
-apply plugin: 'realm-android'
 
 android {
   defaultPublishConfig "debug"
@@ -38,14 +36,11 @@ android {
 }
 
 dependencies {
-  def mvpDependencies = rootProject.ext.mvpDependencies
-  def presentationDependencies = rootProject.ext.presentationDependencies
+  def vkDependencies = rootProject.ext.vkDependencies
 
   compile project(':data')
-  compile 'com.vk:androidsdk:1.6.5'
 
-  compile mvpDependencies.androidAnnotations
-
-  compile presentationDependencies.gson
-  compile presentationDependencies.gson
+  compile vkDependencies.androidAnnotations
+  compile vkDependencies.gson
+  compile vkDependencies.vk_lib
 }
