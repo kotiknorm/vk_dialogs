@@ -18,8 +18,16 @@ public class Photo extends RealmObject {
 
     @SerializedName("photo_1280")
     private String photo1280;
-    private String width;
-    private String height;
+    private int width;
+    private int height;
+
+    public int getHeight() {
+        return height;
+    }
+
+    public int getWidth() {
+        return width;
+    }
 
     public Photo() {
 

@@ -144,6 +144,7 @@ public class MessagesAdapter extends BaseAdapter {
                 int imageSize = (int) getContext().getResources().getDimension(R.dimen.message_image_size);
 
                 params.width = imageSize;
+                params.height = imageSize * photo.getHeight() / photo.getWidth();
                 imageView.setLayoutParams(params);
 
                 mMessageContainer.addView(imageView, mMessageContainer.getChildCount() - 1);
