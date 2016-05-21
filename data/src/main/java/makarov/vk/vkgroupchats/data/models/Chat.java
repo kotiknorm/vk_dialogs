@@ -1,5 +1,7 @@
 package makarov.vk.vkgroupchats.data.models;
 
+import android.support.annotation.Nullable;
+
 import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
@@ -16,11 +18,6 @@ public class Chat extends RealmObject {
     private int chatId;
     private Long date;
     private String title;
-
-    public String getBody() {
-        return body;
-    }
-
     private String body;
     private RealmList<User> mUsers;
 
@@ -89,5 +86,21 @@ public class Chat extends RealmObject {
     public boolean hasUsers() {
         return mUsers != null && mUsers.size() > 0;
     }
+
+    @Nullable
+    public User getUser(String userId) {
+        for (User user : mUsers) {
+            if (user.getId().equals(userId)) {
+                return user;
+            }
+        }
+
+        return null;
+    }
+
+    public String getBody() {
+        return body;
+    }
+
 
 }

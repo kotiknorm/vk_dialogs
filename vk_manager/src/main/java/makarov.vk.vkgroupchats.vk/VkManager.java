@@ -30,8 +30,6 @@ public class VkManager {
             VKScope.DOCS
     };
 
-
-
     private final List<RequestEntry> mRunningRequests = new ArrayList<>();
 
 

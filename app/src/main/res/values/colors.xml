@@ -1,9 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <color name="colorPrimary">#3f51b5</color>
-    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorPrimary">#039be5</color>
+    <color name="colorPrimaryDark">#027cb7</color>
     <color name="colorAccent">#FF4081</color>
+
+    <color name="chat_bg">#7da5af</color>
+    <color name="chat_date_color">#080909</color>
 
     <color name="chat_sub_info_text_color">#5e5e5e</color>
 </resources>

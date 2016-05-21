@@ -2,28 +2,51 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:clipChildren="false"
     android:orientation="horizontal"
-    android:gravity="right">
+    android:gravity="right"
+    android:paddingLeft="8dp"
+    android:paddingTop="4dp"
+    android:paddingRight="8dp"
+    android:paddingBottom="4dp">
 
     <LinearLayout
         android:id="@+id/message_container"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="#ff0000"
+        android:background="@drawable/chat_right"
+        android:layout_marginLeft="8dp"
         android:orientation="vertical"
-        android:layout_toRightOf="@+id/time">
+        android:gravity="right"
+        android:paddingLeft="2dp"
+        android:paddingTop="2dp"
+        android:paddingRight="12dp"
+        android:paddingBottom="2dp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/body"
+            android:textSize="16sp"
+            android:paddingLeft="6dp"
+            android:paddingTop="4dp"
+            android:paddingRight="6dp"
+            android:paddingBottom="4dp"
+            android:text="mikmikmkdsfdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdf"
+            android:textColor="@android:color/white" />
+
+        <TextView
+            android:id="@+id/time"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="12:30 PM"
+            android:textColor="@android:color/white"
+            android:layout_marginLeft="8dp"
+            android:gravity="right"
+            android:layout_marginRight="8dp"
+            android:paddingRight="6dp"
+            android:paddingLeft="6dp" />
 
     </LinearLayout>
 
-    <TextView
-        android:id="@+id/time"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="12:30 PM"
-        android:background="#5d59c2"
-        android:layout_alignParentTop="false"
-        android:layout_alignParentRight="false"
-        android:layout_alignParentEnd="false" />
 
 </RelativeLayout>

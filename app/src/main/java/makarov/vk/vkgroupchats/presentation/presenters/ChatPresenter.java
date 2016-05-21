@@ -37,8 +37,6 @@ public class ChatPresenter extends BasePresenter<ChatView> {
             if (result != null) {
                 getView().addMessages(result);
             }
-
-
         }
     };
 

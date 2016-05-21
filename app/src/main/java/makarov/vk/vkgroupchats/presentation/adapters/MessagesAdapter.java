@@ -1,6 +1,8 @@
 package makarov.vk.vkgroupchats.presentation.adapters;
 
 import android.content.Context;
+import android.support.annotation.Nullable;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,11 +14,17 @@ import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
 import makarov.vk.vkgroupchats.R;
+import makarov.vk.vkgroupchats.data.models.Chat;
 import makarov.vk.vkgroupchats.data.models.Message;
 import makarov.vk.vkgroupchats.data.models.Photo;
+import makarov.vk.vkgroupchats.data.models.User;
+import makarov.vk.vkgroupchats.utils.DateUtils;
 import makarov.vk.vkgroupchats.vk.VkManager;
 
 public class MessagesAdapter extends BaseAdapter {
@@ -26,7 +34,8 @@ public class MessagesAdapter extends BaseAdapter {
     private static final int UNKNOWN = -1;
 
     List<Message> mList = new ArrayList<>();
-    Context mContext;
+    private Context mContext;
+    @Nullable private Chat mChat;
 
     public MessagesAdapter(Context context) {
         super();
@@ -79,7 +88,7 @@ public class MessagesAdapter extends BaseAdapter {
 
     private View createViewWithHolder(int viewType, ViewGroup viewGroup) {
         View convertView = createView(viewType, viewGroup);
-        ViewHolder  viewHolder = new ViewHolder((ViewGroup) convertView.findViewById(R.id.message_container));
+        ViewHolder viewHolder = new ViewHolder(convertView);
         convertView.setTag(viewHolder);
         return convertView;
     }
@@ -92,28 +101,39 @@ public class MessagesAdapter extends BaseAdapter {
         }
     }
 
-    private class ViewHolder {
+    public void setChat(Chat chat) {
+        mChat = chat;
+    }
 
-        private final ViewGroup mParentView;
+    public class ViewHolder {
+
+        @Bind(R.id.message_container) LinearLayout mMessageContainer;
+        @Bind(R.id.time) TextView mDate;
+        @Bind(R.id.body) TextView mBody;
+
+        List<View> mGeneratedView = new LinkedList<>();
+
         private int mMessageId;
         public int mMessageType = UNKNOWN;
 
-        ViewHolder(ViewGroup parentView) {
-            mParentView = parentView;
+        private final View mRoot;
+
+        public ViewHolder(View parentView) {
+            ButterKnife.bind(this, parentView);
+            mRoot = parentView;
         }
 
         private Context getContext() {
-            return mParentView.getContext();
+            return mMessageContainer.getContext();
         }
 
         private void addMessage(String body) {
-            TextView textView = new TextView(getContext());
-            textView.setLayoutParams(new
-                    LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
-                    LinearLayout.LayoutParams.WRAP_CONTENT));
-
-            textView.setText(body);
-            mParentView.addView(textView);
+            if (TextUtils.isEmpty(body)) {
+                mBody.setVisibility(View.GONE);
+            } else {
+                mBody.setVisibility(View.VISIBLE);
+                mBody.setText(body);
+            }
         }
 
         private void addImages(List<Photo> photos) {
@@ -127,14 +147,18 @@ public class MessagesAdapter extends BaseAdapter {
                 params.height = imageSize;
                 imageView.setLayoutParams(params);
 
-                mParentView.addView(imageView);
+                mMessageContainer.addView(imageView, mMessageContainer.getChildCount() - 1);
+                mGeneratedView.add(imageView);
                 Picasso.with(getContext()).load(photo.getPhotoUrl()).into(imageView);
             }
 
         }
 
         private void reset() {
-            mParentView.removeAllViews();
+            for (View view : mGeneratedView) {
+                mMessageContainer.removeView(view);
+            }
+            mGeneratedView.clear();
         }
 
         public void setMessage(Message message) {
@@ -143,17 +167,35 @@ public class MessagesAdapter extends BaseAdapter {
             }
 
             reset();
+            ImageView avatar = (ImageView) mRoot.findViewById(R.id.avatar);
+            if (avatar != null) {
+                Picasso.with(getContext()).load(getUserPhotoUrl(message.getFromId())).into(avatar);
+            }
+
+            mDate.setText(DateUtils.chatLastMessage(mChat.getDate()));
+
             mMessageId = message.getId();
             mMessageType = getMessageType(message);
-            if (message.hasBody()) {
-                addMessage(message.getBody());
-            }
+            addMessage(message.getBody());
 
             if (message.hasPhotos()) {
                 addImages(message.getPhotos());
             }
         }
+    }
 
+    @Nullable
+    private String getUserPhotoUrl(String userId) {
+        if (mChat == null) {
+            return null;
+        }
+
+        User user =  mChat.getUser(userId);
+        if (user == null) {
+            return null;
+        }
+
+        return user.getPhoto();
     }
 
     public static int getMessageType(Message message) {

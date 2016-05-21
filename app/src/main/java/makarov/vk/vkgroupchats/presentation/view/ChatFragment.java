@@ -90,6 +90,7 @@ public class ChatFragment extends MvpFragment<ChatPresenter, ChatsComponent>
         String subTitle = getResources().getQuantityString(R.plurals.members,
                 countMembers, countMembers);
         mToolbar.setSubtitle(subTitle);
+        mAdapter.setChat(chat);
     }
 
     @Override

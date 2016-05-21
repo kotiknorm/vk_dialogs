@@ -15,4 +15,9 @@ public class User extends RealmObject {
         return photo;
     }
 
+
+    public String getId() {
+        return id;
+    }
+
 }
