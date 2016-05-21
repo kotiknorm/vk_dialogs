@@ -7,6 +7,7 @@ import javax.inject.Singleton;
 import dagger.Module;
 import dagger.Provides;
 import makarov.vk.vkgroupchats.data.Storage;
+import makarov.vk.vkgroupchats.data.query.QueryFactory;
 import makarov.vk.vkgroupchats.presentation.BackPressedDispatcher;
 import makarov.vk.vkgroupchats.presentation.UiNavigator;
 import makarov.vk.vkgroupchats.presentation.presenters.ChatsListPresenter;
@@ -44,8 +45,8 @@ public class ChatsModule {
 
     @Provides
     PresenterFactory provideChatPresenter(VkManager vkManager, VkRequestsFactory vkRequestsFactory,
-                                          Storage storage) {
-        return new PresenterFactory(vkManager, vkRequestsFactory, storage);
+                                          QueryFactory queryFactory) {
+        return new PresenterFactory(vkManager, vkRequestsFactory, queryFactory);
     }
 
     @Provides

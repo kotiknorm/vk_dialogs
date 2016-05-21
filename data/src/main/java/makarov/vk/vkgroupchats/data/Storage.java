@@ -14,4 +14,6 @@ public interface Storage<ModelType, QueryType> {
 
     void discard();
 
+
+
 }

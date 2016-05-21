@@ -61,10 +61,15 @@ dependencies {
     compile presentationDependencies.picasso
     compile presentationDependencies.superListView
     compile presentationDependencies.circleImageView
+    compile presentationDependencies.rx
 
     forceCompile presentationDependencies.supportV4
     forceCompile presentationDependencies.recyclerView
     forceCompile presentationDependencies.supportDesign
     forceCompile presentationDependencies.supportV13
+
+    testCompile presentationDependencies.junit
+    testCompile presentationDependencies.mockito
+
 
 }

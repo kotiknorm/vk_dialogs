@@ -27,12 +27,13 @@ ext {
   picassoVersion = '2.5.2'
   superListViewVersion = '1.5.2'
   circleImageViewVersion = '2.0.0'
+  rxVersion = '1.0.16'
 
   //Testing
   robolectricVersion = '3.0'
   jUnitVersion = '4.12'
   assertJVersion = '1.7.1'
-  mockitoVersion = '1.9.5'
+  mockitoVersion = '1.10.19'
   testingSupportLibVersion = '0.1'
 
   presentationDependencies = [
@@ -48,6 +49,10 @@ ext {
           picasso:                        "com.squareup.picasso:picasso:${picassoVersion}",
           superListView:                  "com.quentindommerc.superlistview:library:${superListViewVersion}",
           circleImageView:                "de.hdodenhof:circleimageview:${circleImageViewVersion}",
+          junit:                          "junit:junit:${jUnitVersion}",
+          rx:                             "io.reactivex:rxjava:${rxVersion}",
+          mockito:                        "org.mockito:mockito-all:${mockitoVersion}",
+
   ]
 
   mvpDependencies = [

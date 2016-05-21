@@ -9,6 +9,7 @@ import dagger.Module;
 import dagger.Provides;
 import makarov.vk.vkgroupchats.data.Storage;
 import makarov.vk.vkgroupchats.data.StorageImpl;
+import makarov.vk.vkgroupchats.data.query.QueryFactory;
 import makarov.vk.vkgroupchats.vk.VkManager;
 import makarov.vk.vkgroupchats.vk.VkRequestsFactory;
 
@@ -31,6 +32,12 @@ public class AppModule {
     @Singleton
     Storage provideStorage() {
         return new StorageImpl(mApplication);
+    }
+
+    @Provides
+    @Singleton
+    QueryFactory provideQueryFactory(Storage storage) {
+        return new QueryFactory(storage);
     }
 
     @Provides
